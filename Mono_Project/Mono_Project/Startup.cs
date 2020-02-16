@@ -14,6 +14,8 @@ using Microsoft.EntityFrameworkCore;
 using Project.Service.Context;
 using Npgsql;
 using Microsoft.EntityFrameworkCore.Migrations.Internal;
+using Project.Service.Interfaces;
+using Project.Service.Services;
 
 namespace Mono_Project
 {
@@ -30,6 +32,7 @@ namespace Mono_Project
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
+
             var connectionString = Configuration["PostgreSql:ConnectionString"];
             var dbPassword = Configuration["PostgreSql:DbPassword"];
 
@@ -39,6 +42,8 @@ namespace Mono_Project
             };
 
             services.AddDbContext<ApplicationContext>(options => options.UseNpgsql(builder.ConnectionString));
+
+            services.AddTransient<IVehicleMakeService, VehicleMakeService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -60,7 +65,7 @@ namespace Mono_Project
             app.UseRouting();
 
             app.UseAuthorization();
-
+            
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(

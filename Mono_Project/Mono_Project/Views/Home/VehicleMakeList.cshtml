@@ -1,0 +1,23 @@
+﻿@model List<VehicleMake>
+@{
+    ViewData["Title"] = "All Vehicle Makes";
+}
+
+<table>
+    <tbody>
+    @foreach (var vehicleMake in Model)
+    {
+        <tr>
+            <td>
+                <p>@vehicleMake.Id</p>
+            </td>
+            <td>
+                <p>@vehicleMake.Name</p>
+            </td>
+            <td>
+                <p>@vehicleMake.Abrv</p>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
