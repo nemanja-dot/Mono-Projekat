@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Mono_Project.Models;
 using Project.Service.Context;
 using Project.Service.Interfaces;
 using Project.Service.Model;
@@ -15,8 +17,9 @@ namespace Mono_Project.Controllers
     public class VehicleMakeController : Controller
     {
         private readonly IVehicleMakeService _vehicleMakeService;
+        private readonly IMapper _mapper;
 
-        public VehicleMakeController(IVehicleMakeService vehicleMakeService)
+        public VehicleMakeController(IVehicleMakeService vehicleMakeService, IMapper mapper)
         {
             _vehicleMakeService = vehicleMakeService;
         }
@@ -52,7 +55,9 @@ namespace Mono_Project.Controllers
                 return NotFound();
             }
 
-            return View(vehicleMake);
+            var vehicleMakeModel = _mapper.Map<VehicleMakeViewModel>(vehicleMake);
+
+            return View(vehicleMakeModel);
         }
 
         // GET: VehicleMake/Create
