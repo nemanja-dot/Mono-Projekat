@@ -16,6 +16,7 @@ using Npgsql;
 using Microsoft.EntityFrameworkCore.Migrations.Internal;
 using Project.Service.Interfaces;
 using Project.Service.Services;
+using AutoMapper;
 
 namespace Mono_Project
 {
@@ -44,6 +45,10 @@ namespace Mono_Project
             services.AddDbContext<ApplicationContext>(options => options.UseNpgsql(builder.ConnectionString));
 
             services.AddTransient<IVehicleMakeService, VehicleMakeService>();
+            services.AddTransient<IVehicleModelService, VehicleModelService>();
+
+            services.AddAutoMapper(typeof(Startup));
+            services.AddControllersWithViews();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

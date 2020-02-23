@@ -5,6 +5,8 @@ using Project.Service.Model;
 using System.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System;
+using System.Collections;
 
 namespace Project.Service.Services
 {
@@ -32,14 +34,51 @@ namespace Project.Service.Services
             return await _applicationDbContext.SaveChangesAsync() > 0;
         }
 
-        public async Task<List<VehicleMake>> GetAllAsync(int page, int count)
+        public async Task<VehicleMake> FindAsync(int? id)
         {
-            return await _applicationDbContext.VehicleMake.Skip(page * count).Take(count).ToListAsync();
+            var vehicleMake = await _applicationDbContext.VehicleMake
+                .FirstOrDefaultAsync(m => m.Id == id);
+            return vehicleMake;
         }
 
-        public Task<bool> UpdateAsync(VehicleMake vehicleMake)
+        public async Task<PagingDataList<VehicleMake>> GetAllAsync(PagingData pagingData)
         {
-            throw new System.NotImplementedException();
+            var allVehicleMakes = _applicationDbContext.VehicleMake.AsQueryable();
+
+            if (!string.IsNullOrEmpty(pagingData.SearchString))
+            {
+                allVehicleMakes = allVehicleMakes.Where(s => s.Name.ToLower().Contains(pagingData.SearchString.ToLower())
+                                       || s.Abrv.ToLower().Contains(pagingData.SearchString.ToLower()));
+            }
+
+            switch (pagingData.SortOrder)
+            {
+                case "name_desc":
+                    allVehicleMakes = allVehicleMakes.OrderByDescending(s => s.Name);
+                    break;
+                default:
+                    allVehicleMakes = allVehicleMakes.OrderBy(s => s.Name);
+                    break;
+            }
+
+            var count = await allVehicleMakes.CountAsync();
+
+            var currentPage = pagingData.Page ?? 0;
+            var take = pagingData.Count ?? 10;
+
+            var results = await allVehicleMakes.Skip(currentPage * take).Take(take).ToListAsync();
+
+            return new PagingDataList<VehicleMake>(results, count, currentPage, take);
+        }
+
+        public async Task<bool> UpdateAsync(VehicleMake vehicleMake)
+        {
+            _applicationDbContext.Update(vehicleMake);
+            return await _applicationDbContext.SaveChangesAsync() > 0;
+        }
+        public bool VehicleMakeExists(int id)
+        {
+            return _applicationDbContext.VehicleMake.Any(e => e.Id == id);
         }
     }
 }

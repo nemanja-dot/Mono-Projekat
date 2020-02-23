@@ -13,35 +13,13 @@ namespace Mono_Project.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-        private readonly IVehicleMakeService _vehicleMakeService;
 
-        public HomeController(ILogger<HomeController> logger, IVehicleMakeService vehicleMakeService)
+        public HomeController()
         {
-            _logger = logger;
-            _vehicleMakeService = vehicleMakeService;
         }
 
         public IActionResult Index()
         {
-            return View();
-        }
-
-        [HttpPost]
-        public IActionResult Index(int page)
-        {
-            return View();
-        }
-
-        public async Task<IActionResult> VehicleMakeList()
-        {
-            var results = await _vehicleMakeService.GetAllAsync(0, 3);
-            return View(results);
-        }
-
-        public async Task<IActionResult> Privacy()
-        {
-            await _vehicleMakeService.CreateAsync(new VehicleMake { Name = "Ford", Abrv = "FD" });
             return View();
         }
 

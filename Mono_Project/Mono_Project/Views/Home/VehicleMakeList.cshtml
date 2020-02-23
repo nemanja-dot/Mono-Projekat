@@ -3,6 +3,16 @@
     ViewData["Title"] = "All Vehicle Makes";
 }
 
+<form asp-action="VehicleMakeList" method="get">
+    <div class="form-actions no-color">
+        <p>
+            <input type="submit" value="Napravi" class="btn btn-default" /> |
+        </p>
+    </div>
+</form>
+
+
+
 <table>
     <tbody>
     @foreach (var vehicleMake in Model)
