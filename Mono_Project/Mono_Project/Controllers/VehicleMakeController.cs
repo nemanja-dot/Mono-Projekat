@@ -22,6 +22,7 @@ namespace Mono_Project.Controllers
         public VehicleMakeController(IVehicleMakeService vehicleMakeService, IMapper mapper)
         {
             _vehicleMakeService = vehicleMakeService;
+            _mapper = mapper;
         }
 
         // GET: VehicleMake
