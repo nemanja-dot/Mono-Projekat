@@ -28,6 +28,7 @@ namespace Mono_Project.Controllers
         // GET: VehicleMake
         public async Task<IActionResult> Index(PagingData pagingData)
         {
+
             ViewData["CurrentSort"] = pagingData.SortOrder;
             ViewData["Count"] = pagingData.Count;
             ViewData["CurrentFilter"] = pagingData.SearchString;
@@ -37,6 +38,7 @@ namespace Mono_Project.Controllers
             pagingData.Count ??= 10;
 
             var allVehicleMakes = await _vehicleMakeService.GetAllAsync(pagingData);
+
 
             return View(allVehicleMakes);
           
@@ -56,9 +58,9 @@ namespace Mono_Project.Controllers
                 return NotFound();
             }
 
-            var vehicleMakeModel = _mapper.Map<VehicleMakeViewModel>(vehicleMake);
+            var vehicleMakeViewModel = _mapper.Map<VehicleMakeViewModel>(vehicleMake);
 
-            return View(vehicleMakeModel);
+            return View(vehicleMakeViewModel);
         }
 
         // GET: VehicleMake/Create
@@ -72,14 +74,19 @@ namespace Mono_Project.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Abrv")] VehicleMake vehicleMake)
+        public async Task<IActionResult> Create([Bind("Id,Name,Abrv")] VehicleMakeViewModel vehicleMake)
         {
             if (ModelState.IsValid)
             {
-                await _vehicleMakeService.CreateAsync(vehicleMake);
+                var vehicleMakeViewModel = _mapper.Map<VehicleMake>(vehicleMake);
+
+                await _vehicleMakeService.CreateAsync(vehicleMakeViewModel);
                 return RedirectToAction(nameof(Index));
             }
-            return View(vehicleMake);
+
+            var allvehicleMakeViewModel = _mapper.Map<VehicleMakeViewModel>(vehicleMake);
+
+            return View(allvehicleMakeViewModel);
         }
 
         // GET: VehicleMake/Edit/5
@@ -96,7 +103,10 @@ namespace Mono_Project.Controllers
                 return NotFound();
             }
 
-            return View(vehicleMake);
+            var vehicleMakeViewModel = _mapper.Map<VehicleMakeViewModel>(vehicleMake);
+
+            return View(vehicleMakeViewModel);
+
         }
 
         // POST: VehicleMake/Edit/5
@@ -104,8 +114,11 @@ namespace Mono_Project.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Abrv")] VehicleMake vehicleMake)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Abrv")] VehicleMakeViewModel vehicleMake)
         {
+
+            var vehicleMakeViewModel = _mapper.Map<VehicleMake>(vehicleMake);
+
             if (id != vehicleMake.Id)
             {
                 return NotFound();
@@ -115,11 +128,11 @@ namespace Mono_Project.Controllers
             {
                 try
                 {
-                    await _vehicleMakeService.UpdateAsync(vehicleMake);
+                    await _vehicleMakeService.UpdateAsync(vehicleMakeViewModel);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!_vehicleMakeService.VehicleMakeExists(vehicleMake.Id))
+                    if (!_vehicleMakeService.VehicleMakeExists(vehicleMakeViewModel.Id))
                     {
                         return NotFound();
                     }
@@ -130,7 +143,7 @@ namespace Mono_Project.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(vehicleMake);
+            return View(vehicleMakeViewModel);
         }
 
         // GET: VehicleMake/Delete/5
@@ -147,7 +160,9 @@ namespace Mono_Project.Controllers
                 return NotFound();
             }
 
-            return View(vehicleMake);
+            var vehicleMakeViewModel = _mapper.Map<VehicleMakeViewModel>(vehicleMake);
+
+            return View(vehicleMakeViewModel);
         }
 
         // POST: VehicleMake/Delete/5
@@ -155,8 +170,12 @@ namespace Mono_Project.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+
             var vehicleMake = await _vehicleMakeService.FindAsync(id);
-            await _vehicleMakeService.DeleteAsync(vehicleMake);
+
+            var vehicleMakeViewModel = _mapper.Map<VehicleMake>(vehicleMake);
+
+            await _vehicleMakeService.DeleteAsync(vehicleMakeViewModel);
             return RedirectToAction(nameof(Index));
         }
     }

@@ -1,16 +1,17 @@
 ﻿using AutoMapper;
 using Mono_Project.Models;
 using Project.Service.Model;
+using System;
+
 
 namespace Mono_Project.Profiles
 {
-    public class VehicleMakeProfile : AutoMapper.Profile
+    public class PagingDataProfile : Profile
     {
-        public VehicleMakeProfile()
+        public PagingDataProfile()
         {
-            CreateMap<VehicleMake, VehicleMakeViewModel>()
+            CreateMap<PagingData, PagingDataViewModel>()
                 .ReverseMap();
-                
         }
     }
 }
