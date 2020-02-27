@@ -31,15 +31,51 @@ namespace Project.Service.Services
             _applicationDbContext.VehicleModel.Remove(vehicleModel);
             return await _applicationDbContext.SaveChangesAsync() > 0;
         }
-
-        public async Task<List<VehicleModel>> GetAllAsync(int page, int count)
+        public async Task<VehicleModel> FindAsync(int? id)
         {
-            return await _applicationDbContext.VehicleModel.Skip(page * count).Take(count).ToListAsync();
+            var vehicleMade = await _applicationDbContext.VehicleModel
+                .FirstOrDefaultAsync(m => m.Id == id);
+            return vehicleMade;
+        }
+        public async Task<PagingDataList<VehicleModel>> GetAllAsync(PagingData pagingData)
+        {
+            var allVehicleMades = _applicationDbContext.VehicleModel.AsQueryable();
+            if (!string.IsNullOrEmpty(pagingData.SearchString))
+            {
+                allVehicleMades = allVehicleMades.Where(s => s.Name.ToLower().Contains(pagingData.SearchString.ToLower())
+                || s.Abrv.ToLower().Contains(pagingData.SearchString.ToLower()));
+            }
+
+            switch (pagingData.SortOrder)
+            {
+                case "name_desc":
+                    allVehicleMades = allVehicleMades.OrderByDescending(s => s.Name);
+                    break;
+                default:
+                    allVehicleMades = allVehicleMades.OrderBy(s => s.Name);
+                    break;
+            }
+
+            var count = await allVehicleMades.CountAsync();
+            var curentpage = pagingData.Page ?? 0;
+            var take = pagingData.Count ?? 10;
+
+            var resault = await allVehicleMades.Skip(curentpage * take).Take(take).ToListAsync();
+
+            return new PagingDataList<VehicleModel>(resault, count, curentpage, take);
         }
 
-        public Task<bool> UpdateAsync(VehicleModel vehicleModel)
+        
+        public async Task<bool> UpdateAsync(VehicleModel vehicleModel)
         {
-            throw new System.NotImplementedException();
+            _applicationDbContext.Update(vehicleModel);
+            return await _applicationDbContext.SaveChangesAsync() > 0;
         }
+
+        public bool VehicleModelExists(int id)
+        {
+            return _applicationDbContext.VehicleModel.Any(e => e.Id == id);
+        }
+
     }
 }

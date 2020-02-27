@@ -5,8 +5,7 @@ using Project.Service.Model;
 using System.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using System;
-using System.Collections;
+
 
 namespace Project.Service.Services
 {
@@ -63,8 +62,8 @@ namespace Project.Service.Services
 
             var count = await allVehicleMakes.CountAsync();
 
-            var currentPage = pagingData.Page ?? 0;
-            var take = pagingData.Count ?? 10;
+            var currentPage = pagingData.Page ??= 0;
+            var take = pagingData.Count ??= 10;
 
             var results = await allVehicleMakes.Skip(currentPage * take).Take(take).ToListAsync();
 

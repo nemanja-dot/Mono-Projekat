@@ -7,23 +7,36 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Project.Service.Context;
 using Project.Service.Model;
+using Project.Service.Interfaces;
+using AutoMapper;
 
 namespace Mono_Project.Controllers
 {
     public class VehicleModelController : Controller
     {
-        private readonly ApplicationContext _context;
+        private readonly IVehicleModelService _vehicleModelService;
+        private readonly IMapper _mapper;
 
-        public VehicleModelController(ApplicationContext context)
+        public VehicleModelController(IVehicleModelService vehicleModelService, IMapper mapper)
         {
-            _context = context;
+            _vehicleModelService = vehicleModelService;
+            _mapper = mapper;
         }
 
         // GET: VehicleModel
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(PagingData pagingData)
         {
-            var applicationContext = _context.VehicleModel.Include(v => v.VehicleMake);
-            return View(await applicationContext.ToListAsync());
+            ViewData["CurrentSort"] = pagingData.SortOrder;
+            ViewData["Count"] = pagingData.Count;
+            ViewData["CurrentFilter"] = pagingData.SearchString;
+            ViewData["NameSortParm"] = pagingData.SortOrder;
+
+            pagingData.Page ??= 0;
+            pagingData.Count ??= 10;
+
+            var allVehicleModels = await _vehicleModelService.GetAllAsync(pagingData);
+
+            return View(allVehicleModels);
         }
 
         // GET: VehicleModel/Details/5
@@ -34,9 +47,8 @@ namespace Mono_Project.Controllers
                 return NotFound();
             }
 
-            var vehicleModel = await _context.VehicleModel
-                .Include(v => v.VehicleMake)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var vehicleModel = await _vehicleModelService.FindAsync(id);
+                
             if (vehicleModel == null)
             {
                 return NotFound();
@@ -48,7 +60,6 @@ namespace Mono_Project.Controllers
         // GET: VehicleModel/Create
         public IActionResult Create()
         {
-            ViewData["VehicleMakeId"] = new SelectList(_context.VehicleMake, "Id", "Id");
             return View();
         }
 
@@ -61,12 +72,11 @@ namespace Mono_Project.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(vehicleModel);
-                await _context.SaveChangesAsync();
+                await _vehicleModelService.CreateAsync(vehicleModel);
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["VehicleMakeId"] = new SelectList(_context.VehicleMake, "Id", "Id", vehicleModel.VehicleMakeId);
             return View(vehicleModel);
+
         }
 
         // GET: VehicleModel/Edit/5
@@ -77,13 +87,13 @@ namespace Mono_Project.Controllers
                 return NotFound();
             }
 
-            var vehicleModel = await _context.VehicleModel.FindAsync(id);
+            var vehicleModel = await _vehicleModelService.FindAsync(id);
             if (vehicleModel == null)
             {
                 return NotFound();
             }
-            ViewData["VehicleMakeId"] = new SelectList(_context.VehicleMake, "Id", "Id", vehicleModel.VehicleMakeId);
             return View(vehicleModel);
+
         }
 
         // POST: VehicleModel/Edit/5
@@ -102,12 +112,11 @@ namespace Mono_Project.Controllers
             {
                 try
                 {
-                    _context.Update(vehicleModel);
-                    await _context.SaveChangesAsync();
+                    await _vehicleModelService.UpdateAsync(vehicleModel);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!VehicleModelExists(vehicleModel.Id))
+                    if (!_vehicleModelService.VehicleModelExists(vehicleModel.Id))
                     {
                         return NotFound();
                     }
@@ -118,7 +127,6 @@ namespace Mono_Project.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["VehicleMakeId"] = new SelectList(_context.VehicleMake, "Id", "Id", vehicleModel.VehicleMakeId);
             return View(vehicleModel);
         }
 
@@ -130,9 +138,8 @@ namespace Mono_Project.Controllers
                 return NotFound();
             }
 
-            var vehicleModel = await _context.VehicleModel
-                .Include(v => v.VehicleMake)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var vehicleModel = await _vehicleModelService.FindAsync(id);
+               
             if (vehicleModel == null)
             {
                 return NotFound();
@@ -146,15 +153,9 @@ namespace Mono_Project.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var vehicleModel = await _context.VehicleModel.FindAsync(id);
-            _context.VehicleModel.Remove(vehicleModel);
-            await _context.SaveChangesAsync();
+            var vehicleModel = await _vehicleModelService.FindAsync(id);
+            await _vehicleModelService.DeleteAsync(vehicleModel);
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool VehicleModelExists(int id)
-        {
-            return _context.VehicleModel.Any(e => e.Id == id);
         }
     }
 }
