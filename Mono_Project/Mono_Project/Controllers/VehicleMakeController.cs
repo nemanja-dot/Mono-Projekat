@@ -84,9 +84,7 @@ namespace Mono_Project.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            var allvehicleMakeViewModel = _mapper.Map<VehicleMakeViewModel>(vehicleMake);
-
-            return View(allvehicleMakeViewModel);
+            return View(vehicleMake);
         }
 
         // GET: VehicleMake/Edit/5
@@ -143,7 +141,8 @@ namespace Mono_Project.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(vehicleMakeViewModel);
+
+            return View(vehicleMake);
         }
 
         // GET: VehicleMake/Delete/5

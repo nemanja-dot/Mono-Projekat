@@ -91,10 +91,7 @@ namespace Mono_Project.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            var allvehicleMadeViewModel = _mapper.Map<VehicleModelViewModel>(vehicleModel);
-
-            return View(allvehicleMadeViewModel);
-
+            return View(vehicleModel);
         }
 
         // GET: VehicleModel/Edit/5
