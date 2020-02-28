@@ -38,9 +38,9 @@ namespace Mono_Project.Controllers
             pagingData.Count ??= 10;
 
             var allVehicleMakes = await _vehicleMakeService.GetAllAsync(pagingData);
+            var allVehicleMakesViewModels = _mapper.Map<PagingDataList<VehicleMakeViewModel>>(allVehicleMakes);
 
-
-            return View(allVehicleMakes);
+            return View(allVehicleMakesViewModels);
           
         }
 

@@ -6,9 +6,9 @@ using System;
 
 namespace Mono_Project.Profiles
 {
-    public class VehicleMadeProfile : Profile
+    public class VehicleModelProfile : Profile
     {
-        public VehicleMadeProfile()
+        public VehicleModelProfile()
         {
             CreateMap<VehicleModel, VehicleModelViewModel>()
                 .ReverseMap();

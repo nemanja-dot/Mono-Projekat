@@ -39,10 +39,9 @@ namespace Mono_Project.Controllers
             
 
             var allVehicleModels = await _vehicleModelService.GetAllAsync(pagingData);
+            var allVehicleModelsViewModels = _mapper.Map<PagingDataList<VehicleModelViewModel>>(allVehicleModels);
 
-           
-
-            return View(allVehicleModels);
+            return View(allVehicleModelsViewModels);
         }
 
         // GET: VehicleModel/Details/5
