@@ -33,13 +33,14 @@ namespace Project.Service.Services
         }
         public async Task<VehicleModel> FindAsync(int? id)
         {
-            var vehicleMade = await _applicationDbContext.VehicleModel
+            var vehicleMade = await _applicationDbContext.VehicleModel.Include(m => m.VehicleMake)
                 .FirstOrDefaultAsync(m => m.Id == id);
             return vehicleMade;
         }
         public async Task<PagingDataList<VehicleModel>> GetAllAsync(PagingData pagingData)
         {
-            var allVehicleMades = _applicationDbContext.VehicleModel.AsQueryable();
+            var allVehicleMades = _applicationDbContext.VehicleModel.Include(m => m.VehicleMake).AsQueryable();
+
             if (!string.IsNullOrEmpty(pagingData.SearchString))
             {
                 allVehicleMades = allVehicleMades.Where(s => s.Name.ToLower().Contains(pagingData.SearchString.ToLower())
@@ -60,9 +61,9 @@ namespace Project.Service.Services
             var curentpage = pagingData.Page ?? 0;
             var take = pagingData.Count ?? 10;
 
-            var resault = await allVehicleMades.Skip(curentpage * take).Take(take).ToListAsync();
+            var result = await allVehicleMades.Skip(curentpage * take).Take(take).ToListAsync();
 
-            return new PagingDataList<VehicleModel>(resault, count, curentpage, take);
+            return new PagingDataList<VehicleModel>(result, count, curentpage, take);
         }
 
         

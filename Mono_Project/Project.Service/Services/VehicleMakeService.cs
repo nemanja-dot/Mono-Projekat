@@ -40,9 +40,15 @@ namespace Project.Service.Services
             return vehicleMake;
         }
 
-        public async Task<PagingDataList<VehicleMake>> GetAllAsync(PagingData pagingData)
+        public async Task<PagingDataList<VehicleMake>> GetAllAsync(PagingData pagingData = null)
         {
             var allVehicleMakes = _applicationDbContext.VehicleMake.AsQueryable();
+
+            if (pagingData == null)
+            {
+                var allResults = await allVehicleMakes.ToListAsync();
+                return new PagingDataList<VehicleMake>(allResults, allResults.Count, 0, allResults.Count);
+            }
 
             if (!string.IsNullOrEmpty(pagingData.SearchString))
             {

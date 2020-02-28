@@ -16,11 +16,13 @@ namespace Mono_Project.Controllers
     public class VehicleModelController : Controller
     {
         private readonly IVehicleModelService _vehicleModelService;
+        private readonly IVehicleMakeService _vehicleMakeService;
         private readonly IMapper _mapper;
 
-        public VehicleModelController(IVehicleModelService vehicleModelService, IMapper mapper)
+        public VehicleModelController(IVehicleModelService vehicleModelService, IVehicleMakeService vehicleMakeService, IMapper mapper)
         {
             _vehicleModelService = vehicleModelService;
+            _vehicleMakeService = vehicleMakeService;
             _mapper = mapper;
         }
 
@@ -35,8 +37,6 @@ namespace Mono_Project.Controllers
 
             pagingData.Page ??= 0;
             pagingData.Count ??= 10;
-
-            
 
             var allVehicleModels = await _vehicleModelService.GetAllAsync(pagingData);
             var allVehicleModelsViewModels = _mapper.Map<PagingDataList<VehicleModelViewModel>>(allVehicleModels);
@@ -65,9 +65,15 @@ namespace Mono_Project.Controllers
         }
 
         // GET: VehicleModel/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            return View();
+            var model = new VehicleModelViewModel();
+
+            var allVehicleMakes = await _vehicleMakeService.GetAllAsync();
+
+            model.VehicleMakes = allVehicleMakes.Select(m => new SelectListItem(m.Name, m.Id.ToString())).ToList();
+
+            return View(model);
         }
 
         // POST: VehicleModel/Create
@@ -107,6 +113,9 @@ namespace Mono_Project.Controllers
 
             var vehicleModelViewModel = _mapper.Map<VehicleModelViewModel>(vehicleModel);
 
+            var allVehicleMakes = await _vehicleMakeService.GetAllAsync();
+            vehicleModelViewModel.VehicleMakes = allVehicleMakes.Select(m => new SelectListItem(m.Name, m.Id.ToString())).ToList();
+
             return View(vehicleModelViewModel);
 
         }
@@ -145,7 +154,12 @@ namespace Mono_Project.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(vehicleModelViewModel);
+
+
+            var allVehicleMakes = await _vehicleMakeService.GetAllAsync();
+            vehicleModel.VehicleMakes = allVehicleMakes.Select(m => new SelectListItem(m.Name, m.Id.ToString())).ToList();
+
+            return View(vehicleModel);
         }
 
         // GET: VehicleModel/Delete/5
