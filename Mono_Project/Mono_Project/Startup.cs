@@ -17,6 +17,8 @@ using Microsoft.EntityFrameworkCore.Migrations.Internal;
 using Project.Service.Interfaces;
 using Project.Service.Services;
 using AutoMapper;
+using Autofac;
+using Autofac.Extensions.DependencyInjection;
 
 namespace Mono_Project
 {
@@ -28,6 +30,7 @@ namespace Mono_Project
         }
 
         public IConfiguration Configuration { get; }
+        public ILifetimeScope AutofacContainer { get; private set; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -44,13 +47,24 @@ namespace Mono_Project
 
             services.AddDbContext<ApplicationContext>(options => options.UseNpgsql(builder.ConnectionString));
 
-            services.AddTransient<IVehicleMakeService, VehicleMakeService>();
-            services.AddTransient<IVehicleModelService, VehicleModelService>();
+            // .net Core, new dependency injection, replaced with AutoFac
+            //services.AddTransient<IVehicleMakeService, VehicleMakeService>();
+            //services.AddTransient<IVehicleModelService, VehicleModelService>();
 
             services.AddAutoMapper(typeof(Startup));
             services.AddControllersWithViews();
         }
 
+        // ConfigureContainer is where you can register things directly
+        // with Autofac. This runs after ConfigureServices so the things
+        // here will override registrations made in ConfigureServices.
+        // Don't build the container; that gets done for you by the factory.
+        public void ConfigureContainer(ContainerBuilder builder)
+        {
+            // Register your own things directly with Autofac, like:
+            builder.RegisterType<VehicleMakeService>().As<IVehicleMakeService>();
+            builder.RegisterType<VehicleModelService>().As<IVehicleModelService>();
+        }
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
@@ -66,6 +80,8 @@ namespace Mono_Project
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+
+            this.AutofacContainer = app.ApplicationServices.GetAutofacRoot();
 
             app.UseRouting();
 
