@@ -3,91 +3,99 @@
 
 @{
     ViewData["Title"] = "Index";
+    var items = (List<SelectListItem>)ViewData["SelectListItems"];
+
 }
 
-<h1>Index</h1>
+    <h1>Index</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<form asp-action="Index" method="get">
-    <div class="form-actions no-color">
-        <p>
-            Find by name: <input type="text" name="SearchString" value="@ViewData["CurrentFilter"]" />
-            <input type="submit" value="Search" class="btn btn-default" /> |
-            @if (!string.IsNullOrWhiteSpace(ViewData["CurrentFilter"] as string))
+    <p>
+        <a asp-action="Create">Create New</a>
+    </p>
+    <form asp-action="Index" method="get">
+        <div class="form-actions no-color">
+            <p>
+                Find by name: <input type="text" name="SearchString" value="@ViewData["CurrentFilter"]" />
+                <input type="submit" value="Search" class="btn btn-default" /> |
+                <div class="form-group">
+                    <label for="VehicleMakeId" class="control-label"></label>
+                    <select for="VehicleMakeId" name="vehicleMakeId" class="form-control" asp-items="@items">
+                        <option value="">Pick one</option>
+                    </select>
+                </div>
+                @if (!string.IsNullOrWhiteSpace(ViewData["CurrentFilter"] as string) || ViewData["VehicleMakeId"] != null)
+                {
+                    <a asp-action="Index">Back to Full List</a>
+                }
+            </p>
+        </div>
+    </form>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model[0].Id)
+                </th>
+                <th>
+                    <a asp-action="Index" asp-route-sortOrder="@(string.IsNullOrWhiteSpace(ViewData["NameSortParm"] as string) ? "name_desc" : "")" asp-route-currentFilter="@ViewData["CurrentFilter"]" asp-route-page="@(Model.PageIndex)" asp-route-count="@ViewData["Count"]">@Html.DisplayNameFor(model => model[0].Name)</a>
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model[0].Abrv)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model[0].VehicleMake)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Items)
             {
-                <a asp-action="Index">Back to Full List</a>
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Abrv)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.VehicleMake.Name)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    </td>
+                </tr>
             }
-        </p>
-    </div>
-</form>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model[0].Id)
-            </th>
-            <th>
-                <a asp-action="Index" asp-route-sortOrder="@(string.IsNullOrWhiteSpace(ViewData["NameSortParm"] as string) ? "name_desc" : "")" asp-route-currentFilter="@ViewData["CurrentFilter"]" asp-route-page="@(Model.PageIndex)" asp-route-count="@ViewData["Count"]">@Html.DisplayNameFor(model => model[0].Name)</a>
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model[0].Abrv)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model[0].VehicleMake)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.Items)
-        {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Abrv)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.VehicleMake.Name)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-        }
-    </tbody>
-</table>
-<table class="table">
-    <thead>
-    <th>
-        @if (Model.HasPreviousPage)
-        {
-            <a asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]" asp-route-page="@(Model.PageIndex - 1)" asp-route-count="@ViewData["Count"]">Previous page</a>
-        }
-    </th>
-    <th>
+        </tbody>
+    </table>
+    <table class="table">
+        <thead>
+        <th>
+            @if (Model.HasPreviousPage)
+            {
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]" asp-route-page="@(Model.PageIndex - 1)" asp-route-count="@ViewData["Count"]">Previous page</a>
+            }
+        </th>
+        <th>
 
-        @if (Model.HasNextPage)
-        {
-            <a asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]" asp-route-page="@(Model.PageIndex + 1)" asp-route-count="@ViewData["Count"]">Next page</a>
-        }
-    </th>
-    </thead>
-    <tbody>
-    <th>
-        <a asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]" asp-route-page="@(Model.PageIndex)" asp-route-count="10">Pageview 10</a>
-    </th>
-    <th>
-        <a asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]" asp-route-page="@(Model.PageIndex)" asp-route-count="20">Pageview 20</a>
-    </th>
-</tbody>
+            @if (Model.HasNextPage)
+            {
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]" asp-route-page="@(Model.PageIndex + 1)" asp-route-count="@ViewData["Count"]">Next page</a>
+            }
+        </th>
+        </thead>
+        <tbody>
+        <th>
+            <a asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]" asp-route-page="@(Model.PageIndex)" asp-route-count="10">Pageview 10</a>
+        </th>
+        <th>
+            <a asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]" asp-route-page="@(Model.PageIndex)" asp-route-count="20">Pageview 20</a>
+        </th>
+        </tbody>
 
-</table>
+    </table>

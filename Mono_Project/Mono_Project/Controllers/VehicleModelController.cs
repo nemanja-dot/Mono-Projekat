@@ -34,12 +34,22 @@ namespace Mono_Project.Controllers
             ViewData["Count"] = pagingData.Count;
             ViewData["CurrentFilter"] = pagingData.SearchString;
             ViewData["NameSortParm"] = pagingData.SortOrder;
+            ViewData["VehicleMakeId"] = pagingData.VehicleMakeId;
 
             pagingData.Page ??= 0;
             pagingData.Count ??= 10;
 
             var allVehicleModels = await _vehicleModelService.GetAllAsync(pagingData);
             var allVehicleModelsViewModels = _mapper.Map<PagingDataList<VehicleModelViewModel>>(allVehicleModels);
+
+            var allVehicleMakes = await _vehicleMakeService.GetAllAsync();
+            var selectListItems = allVehicleMakes.Select(m => new SelectListItem(m.Name, m.Id.ToString())).ToList();
+            if(pagingData.VehicleMakeId != null)
+            {
+                selectListItems.Find(m => m.Value == pagingData.VehicleMakeId.ToString()).Selected = true;
+            }
+
+            ViewData["SelectListItems"] = selectListItems;
 
             return View(allVehicleModelsViewModels);
         }

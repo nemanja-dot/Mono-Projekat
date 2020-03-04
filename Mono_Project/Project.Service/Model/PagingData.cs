@@ -10,5 +10,7 @@ namespace Project.Service.Model
         public int? Count { get; set; }
         public string SearchString { get; set; }
         public string SortOrder { get; set; }
+
+        public int? VehicleMakeId { get; set; }
     }
 }

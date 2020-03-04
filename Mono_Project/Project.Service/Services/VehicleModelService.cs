@@ -41,6 +41,11 @@ namespace Project.Service.Services
         {
             var allVehicleMades = _applicationDbContext.VehicleModel.Include(m => m.VehicleMake).AsQueryable();
 
+            if(pagingData.VehicleMakeId != null)
+            {
+                allVehicleMades = allVehicleMades.Where(m => m.VehicleMakeId == pagingData.VehicleMakeId);
+            }
+
             if (!string.IsNullOrEmpty(pagingData.SearchString))
             {
                 allVehicleMades = allVehicleMades.Where(s => s.Name.ToLower().Contains(pagingData.SearchString.ToLower())
