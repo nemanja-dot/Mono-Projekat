@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Text;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Project.Service.Interfaces;
 
 namespace Project.Service.Model
 {
-    public class VehicleModel
+    public class VehicleModel : IVehicleModel
     {
         [Key]
         public int Id { get; set; }

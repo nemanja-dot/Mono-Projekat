@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Mono_Project.Interface;
 using Mono_Project.Models;
 using Project.Service.Context;
 using Project.Service.Interfaces;
@@ -74,7 +75,7 @@ namespace Mono_Project.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Abrv")] VehicleMakeViewModel vehicleMake)
+        public async Task<IActionResult> Create(VehicleMakeViewModel vehicleMake)
         {
             if (ModelState.IsValid)
             {
@@ -102,6 +103,7 @@ namespace Mono_Project.Controllers
             }
 
             var vehicleMakeViewModel = _mapper.Map<VehicleMakeViewModel>(vehicleMake);
+            await TryUpdateModelAsync<IVehicleMakeViewModel>(vehicleMakeViewModel);
 
             return View(vehicleMakeViewModel);
 
@@ -112,7 +114,7 @@ namespace Mono_Project.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Abrv")] VehicleMakeViewModel vehicleMake)
+        public async Task<IActionResult> Edit(int id, VehicleMakeViewModel vehicleMake)
         {
 
             var vehicleMakeViewModel = _mapper.Map<VehicleMake>(vehicleMake);
