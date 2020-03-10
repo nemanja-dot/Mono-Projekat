@@ -1,5 +1,4 @@
-﻿using Project.Service.Model;
-using System.Collections.Generic;
+﻿using Project.Model.Model;
 using System.Threading.Tasks;
 
 namespace Project.Service.Interfaces

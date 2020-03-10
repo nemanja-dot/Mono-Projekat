@@ -1,4 +1,4 @@
-﻿using Project.Service.Model;
+﻿using Project.Model.Model;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

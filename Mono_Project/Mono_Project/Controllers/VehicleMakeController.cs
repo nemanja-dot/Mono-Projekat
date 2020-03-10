@@ -9,9 +9,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Mono_Project.Interface;
 using Mono_Project.Models;
-using Project.Service.Context;
 using Project.Service.Interfaces;
-using Project.Service.Model;
+using Project.Model.Model;
 
 namespace Mono_Project.Controllers
 {

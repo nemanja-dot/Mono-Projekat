@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Mono_Project.Models;
-using Project.Service.Model;
-using System;
+using Project.Model.Model;
 
 
 namespace Mono_Project.Profiles

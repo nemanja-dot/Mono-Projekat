@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Project.Service.Context;
-using Project.Service.Model;
+using Project.Model.Model;
 using Project.Service.Interfaces;
 using AutoMapper;
 using Mono_Project.Models;

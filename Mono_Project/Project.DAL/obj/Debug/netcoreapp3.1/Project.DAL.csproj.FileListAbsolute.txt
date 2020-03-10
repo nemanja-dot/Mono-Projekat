@@ -1,0 +1,13 @@
+C:\Users\Nemanja\Documents\Projekti\Mono-Projekt\Mono_Project\Project.DAL\bin\Debug\netcoreapp3.1\Project.DAL.deps.json
+C:\Users\Nemanja\Documents\Projekti\Mono-Projekt\Mono_Project\Project.DAL\bin\Debug\netcoreapp3.1\Project.DAL.runtimeconfig.json
+C:\Users\Nemanja\Documents\Projekti\Mono-Projekt\Mono_Project\Project.DAL\bin\Debug\netcoreapp3.1\Project.DAL.runtimeconfig.dev.json
+C:\Users\Nemanja\Documents\Projekti\Mono-Projekt\Mono_Project\Project.DAL\bin\Debug\netcoreapp3.1\Project.DAL.dll
+C:\Users\Nemanja\Documents\Projekti\Mono-Projekt\Mono_Project\Project.DAL\bin\Debug\netcoreapp3.1\Project.DAL.pdb
+C:\Users\Nemanja\Documents\Projekti\Mono-Projekt\Mono_Project\Project.DAL\bin\Debug\netcoreapp3.1\Project.Model.dll
+C:\Users\Nemanja\Documents\Projekti\Mono-Projekt\Mono_Project\Project.DAL\bin\Debug\netcoreapp3.1\Project.Model.pdb
+C:\Users\Nemanja\Documents\Projekti\Mono-Projekt\Mono_Project\Project.DAL\obj\Debug\netcoreapp3.1\Project.DAL.csprojAssemblyReference.cache
+C:\Users\Nemanja\Documents\Projekti\Mono-Projekt\Mono_Project\Project.DAL\obj\Debug\netcoreapp3.1\Project.DAL.AssemblyInfoInputs.cache
+C:\Users\Nemanja\Documents\Projekti\Mono-Projekt\Mono_Project\Project.DAL\obj\Debug\netcoreapp3.1\Project.DAL.AssemblyInfo.cs
+C:\Users\Nemanja\Documents\Projekti\Mono-Projekt\Mono_Project\Project.DAL\obj\Debug\netcoreapp3.1\Project.DAL.csproj.CopyComplete
+C:\Users\Nemanja\Documents\Projekti\Mono-Projekt\Mono_Project\Project.DAL\obj\Debug\netcoreapp3.1\Project.DAL.dll
+C:\Users\Nemanja\Documents\Projekti\Mono-Projekt\Mono_Project\Project.DAL\obj\Debug\netcoreapp3.1\Project.DAL.pdb

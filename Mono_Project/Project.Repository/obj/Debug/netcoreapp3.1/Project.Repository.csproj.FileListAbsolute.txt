@@ -1,0 +1,13 @@
+C:\Users\Nemanja\Documents\Projekti\Mono-Projekt\Mono_Project\Project.Repository\bin\Debug\netcoreapp3.1\Project.Repository.deps.json
+C:\Users\Nemanja\Documents\Projekti\Mono-Projekt\Mono_Project\Project.Repository\bin\Debug\netcoreapp3.1\Project.Repository.dll
+C:\Users\Nemanja\Documents\Projekti\Mono-Projekt\Mono_Project\Project.Repository\bin\Debug\netcoreapp3.1\Project.Repository.pdb
+C:\Users\Nemanja\Documents\Projekti\Mono-Projekt\Mono_Project\Project.Repository\bin\Debug\netcoreapp3.1\Project.DAL.dll
+C:\Users\Nemanja\Documents\Projekti\Mono-Projekt\Mono_Project\Project.Repository\bin\Debug\netcoreapp3.1\Project.Model.dll
+C:\Users\Nemanja\Documents\Projekti\Mono-Projekt\Mono_Project\Project.Repository\bin\Debug\netcoreapp3.1\Project.DAL.pdb
+C:\Users\Nemanja\Documents\Projekti\Mono-Projekt\Mono_Project\Project.Repository\bin\Debug\netcoreapp3.1\Project.Model.pdb
+C:\Users\Nemanja\Documents\Projekti\Mono-Projekt\Mono_Project\Project.Repository\obj\Debug\netcoreapp3.1\Project.Repository.csprojAssemblyReference.cache
+C:\Users\Nemanja\Documents\Projekti\Mono-Projekt\Mono_Project\Project.Repository\obj\Debug\netcoreapp3.1\Project.Repository.AssemblyInfoInputs.cache
+C:\Users\Nemanja\Documents\Projekti\Mono-Projekt\Mono_Project\Project.Repository\obj\Debug\netcoreapp3.1\Project.Repository.AssemblyInfo.cs
+C:\Users\Nemanja\Documents\Projekti\Mono-Projekt\Mono_Project\Project.Repository\obj\Debug\netcoreapp3.1\Project.Repository.csproj.CopyComplete
+C:\Users\Nemanja\Documents\Projekti\Mono-Projekt\Mono_Project\Project.Repository\obj\Debug\netcoreapp3.1\Project.Repository.dll
+C:\Users\Nemanja\Documents\Projekti\Mono-Projekt\Mono_Project\Project.Repository\obj\Debug\netcoreapp3.1\Project.Repository.pdb

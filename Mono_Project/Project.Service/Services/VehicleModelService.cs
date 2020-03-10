@@ -1,86 +1,45 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Project.Service.Context;
-using Project.Service.Interfaces;
-using Project.Service.Model;
-using System.Linq;
-using System.Collections.Generic;
+﻿using Project.Service.Interfaces;
+using Project.Model.Model;
 using System.Threading.Tasks;
 
 namespace Project.Service.Services
 {
     public class VehicleModelService : IVehicleModelService
     {
-        private readonly ApplicationContext _applicationDbContext;
+        private readonly IVehicleModelRepository _vehicleModelRepository;
 
-        public VehicleModelService(ApplicationContext applicationContext)
+        public VehicleModelService(IVehicleModelRepository vehicleModelRepository)
         {
-            _applicationDbContext = applicationContext;
+            _vehicleModelRepository = vehicleModelRepository;
         }
 
 
         public async Task<bool> CreateAsync(VehicleModel vehicleModel)
         {
-            _applicationDbContext.VehicleModel.Add(vehicleModel);
-            _applicationDbContext.Entry(vehicleModel).State = EntityState.Added;
-            var result = await _applicationDbContext.SaveChangesAsync();
-            return result > 0;
+            return await _vehicleModelRepository.CreateAsync(vehicleModel);
         }
 
         public async Task<bool> DeleteAsync(VehicleModel vehicleModel)
         {
-            _applicationDbContext.VehicleModel.Remove(vehicleModel);
-            return await _applicationDbContext.SaveChangesAsync() > 0;
+            return await _vehicleModelRepository.DeleteAsync(vehicleModel);
         }
         public async Task<VehicleModel> FindAsync(int? id)
         {
-            var vehicleMade = await _applicationDbContext.VehicleModel.Include(m => m.VehicleMake)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            return vehicleMade;
+            return await _vehicleModelRepository.FindAsync(id);
         }
         public async Task<PagingDataList<VehicleModel>> GetAllAsync(PagingData pagingData)
         {
-            var allVehicleMades = _applicationDbContext.VehicleModel.Include(m => m.VehicleMake).AsQueryable();
-
-            if(pagingData.VehicleMakeId != null)
-            {
-                allVehicleMades = allVehicleMades.Where(m => m.VehicleMakeId == pagingData.VehicleMakeId);
-            }
-
-            if (!string.IsNullOrEmpty(pagingData.SearchString))
-            {
-                allVehicleMades = allVehicleMades.Where(s => s.Name.ToLower().Contains(pagingData.SearchString.ToLower())
-                || s.Abrv.ToLower().Contains(pagingData.SearchString.ToLower()));
-            }
-
-            switch (pagingData.SortOrder)
-            {
-                case "name_desc":
-                    allVehicleMades = allVehicleMades.OrderByDescending(s => s.Name);
-                    break;
-                default:
-                    allVehicleMades = allVehicleMades.OrderBy(s => s.Name);
-                    break;
-            }
-
-            var count = await allVehicleMades.CountAsync();
-            var curentpage = pagingData.Page ?? 0;
-            var take = pagingData.Count ?? 10;
-
-            var result = await allVehicleMades.Skip(curentpage * take).Take(take).ToListAsync();
-
-            return new PagingDataList<VehicleModel>(result, count, curentpage, take);
+            return await _vehicleModelRepository.GetAllAsync(pagingData);
         }
-
         
         public async Task<bool> UpdateAsync(VehicleModel vehicleModel)
         {
-            _applicationDbContext.Update(vehicleModel);
-            return await _applicationDbContext.SaveChangesAsync() > 0;
+            return await _vehicleModelRepository.UpdateAsync(vehicleModel);
         }
 
         public bool VehicleModelExists(int id)
         {
-            return _applicationDbContext.VehicleModel.Any(e => e.Id == id);
+            return _vehicleModelRepository.VehicleModelExists(id);
         }
 
     }
