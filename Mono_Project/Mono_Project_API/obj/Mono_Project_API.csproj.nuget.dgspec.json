@@ -27,6 +27,9 @@
         "frameworks": {
           "netcoreapp3.1": {
             "projectReferences": {
+              "C:\\Users\\Nemanja\\Documents\\Projekti\\Mono-Projekt\\Mono_Project\\Project.Model\\Project.Model.csproj": {
+                "projectPath": "C:\\Users\\Nemanja\\Documents\\Projekti\\Mono-Projekt\\Mono_Project\\Project.Model\\Project.Model.csproj"
+              },
               "C:\\Users\\Nemanja\\Documents\\Projekti\\Mono-Projekt\\Mono_Project\\Project.Service\\Project.Service.csproj": {
                 "projectPath": "C:\\Users\\Nemanja\\Documents\\Projekti\\Mono-Projekt\\Mono_Project\\Project.Service\\Project.Service.csproj"
               }
@@ -57,6 +60,20 @@
             "Autofac.Extensions.DependencyInjection": {
               "target": "Package",
               "version": "[6.0.0, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[3.1.1, )"
+            },
+            "Microsoft.EntityFrameworkCore.Sqlite": {
+              "target": "Package",
+              "version": "[3.1.1, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[3.1.1, )"
             },
             "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
               "target": "Package",

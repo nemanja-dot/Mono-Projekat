@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Project.Service.Context;
-using Project.Service.Model;
+using Project.Model.Model;
+using Project.Service.Interfaces;
 
 namespace Mono_Project_API.Controllers
 {
@@ -14,25 +12,27 @@ namespace Mono_Project_API.Controllers
     [ApiController]
     public class VehicleMakesController : ControllerBase
     {
-        private readonly ApplicationContext _context;
+        private readonly IVehicleMakeService _vehicleMakeService;
+        private readonly IMapper _mapper;
 
-        public VehicleMakesController(ApplicationContext context)
+        public VehicleMakesController(IVehicleMakeService vehicleMakeService, IMapper mapper)
         {
-            _context = context;
+            _vehicleMakeService = vehicleMakeService;
+            _mapper = mapper;
         }
 
         // GET: api/VehicleMakes
         [HttpGet]
         public async Task<ActionResult<IEnumerable<VehicleMake>>> GetVehicleMake()
         {
-            return await _context.VehicleMake.ToListAsync();
+            return await _vehicleMakeService.GetAllAsync();
         }
 
         // GET: api/VehicleMakes/5
         [HttpGet("{id}")]
         public async Task<ActionResult<VehicleMake>> GetVehicleMake(int id)
         {
-            var vehicleMake = await _context.VehicleMake.FindAsync(id);
+            var vehicleMake = await _vehicleMakeService.FindAsync(id);
 
             if (vehicleMake == null)
             {
@@ -53,21 +53,22 @@ namespace Mono_Project_API.Controllers
                 return BadRequest();
             }
 
-            _context.Entry(vehicleMake).State = EntityState.Modified;
-
-            try
+            if (ModelState.IsValid)
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!VehicleMakeExists(id))
+                try
                 {
-                    return NotFound();
+                    await _vehicleMakeService.UpdateAsync(vehicleMake);
                 }
-                else
+                catch (DbUpdateConcurrencyException)
                 {
-                    throw;
+                    if (!_vehicleMakeService.VehicleMakeExists(vehicleMake.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
                 }
             }
 
@@ -80,31 +81,32 @@ namespace Mono_Project_API.Controllers
         [HttpPost]
         public async Task<ActionResult<VehicleMake>> PostVehicleMake(VehicleMake vehicleMake)
         {
-            _context.VehicleMake.Add(vehicleMake);
-            await _context.SaveChangesAsync();
+            await _vehicleMakeService.CreateAsync(vehicleMake);
+           
 
             return CreatedAtAction("GetVehicleMake", new { id = vehicleMake.Id }, vehicleMake);
         }
 
         // DELETE: api/VehicleMakes/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<VehicleMake>> DeleteVehicleMake(int id)
+        public async Task<ActionResult<VehicleMake>> DeleteVehicleMake(int? id)
         {
-            var vehicleMake = await _context.VehicleMake.FindAsync(id);
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var vehicleMake = await _vehicleMakeService.FindAsync(id);
             if (vehicleMake == null)
             {
                 return NotFound();
             }
 
-            _context.VehicleMake.Remove(vehicleMake);
-            await _context.SaveChangesAsync();
+            await _vehicleMakeService.DeleteAsync(vehicleMake);
 
             return vehicleMake;
         }
 
-        private bool VehicleMakeExists(int id)
-        {
-            return _context.VehicleMake.Any(e => e.Id == id);
-        }
+        
     }
 }
