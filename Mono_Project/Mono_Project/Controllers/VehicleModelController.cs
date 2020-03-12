@@ -7,7 +7,6 @@ using Project.Model.Model;
 using Project.Service.Interfaces;
 using AutoMapper;
 using Mono_Project.Models;
-using Mono_Project.Interface;
 
 namespace Mono_Project.Controllers
 {
@@ -89,7 +88,7 @@ namespace Mono_Project.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(VehicleModelViewModel vehicleModel)
+        public async Task<IActionResult> Create([Bind("Id,VehicleMakeId,Name,Abrv")] VehicleModelViewModel vehicleModel)
         {
             if (ModelState.IsValid)
             {
@@ -117,7 +116,6 @@ namespace Mono_Project.Controllers
             }
 
             var vehicleModelViewModel = _mapper.Map<VehicleModelViewModel>(vehicleModel);
-            await TryUpdateModelAsync<IVehicleModelViewModel>(vehicleModelViewModel);
 
             var allVehicleMakes = await _vehicleMakeService.GetAllAsync();
 
@@ -132,7 +130,7 @@ namespace Mono_Project.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id,  VehicleModelViewModel vehicleModel)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,VehicleMakeId,Name,Abrv")] VehicleModelViewModel vehicleModel)
         {
 
             var vehicleModelViewModel = _mapper.Map<VehicleModel>(vehicleModel);

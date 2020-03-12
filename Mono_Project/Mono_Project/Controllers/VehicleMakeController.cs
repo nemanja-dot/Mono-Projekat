@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-using Mono_Project.Interface;
 using Mono_Project.Models;
 using Project.Service.Interfaces;
 using Project.Model.Model;
@@ -74,7 +68,7 @@ namespace Mono_Project.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(VehicleMakeViewModel vehicleMake)
+        public async Task<IActionResult> Create([Bind("Id,Name,Abrv")]VehicleMakeViewModel vehicleMake)
         {
             if (ModelState.IsValid)
             {
@@ -102,8 +96,7 @@ namespace Mono_Project.Controllers
             }
 
             var vehicleMakeViewModel = _mapper.Map<VehicleMakeViewModel>(vehicleMake);
-            await TryUpdateModelAsync<IVehicleMakeViewModel>(vehicleMakeViewModel);
-
+  
             return View(vehicleMakeViewModel);
 
         }
@@ -113,7 +106,7 @@ namespace Mono_Project.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, VehicleMakeViewModel vehicleMake)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Abrv")] VehicleMakeViewModel vehicleMake)
         {
 
             var vehicleMakeViewModel = _mapper.Map<VehicleMake>(vehicleMake);

@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
-using Mono_Project.Interface;
 using Project.Model.Model;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -7,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 namespace Mono_Project.Models
 {
 
-    public class VehicleModelViewModel : IVehicleModelViewModel
+    public class VehicleModelViewModel 
     {
         
         public int Id { get; set; }

@@ -1,14 +1,9 @@
-﻿using Mono_Project.Interface;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Mono_Project.Models
 {
 
-    public class VehicleMakeViewModel : IVehicleMakeViewModel
+    public class VehicleMakeViewModel 
     {
         [Required(ErrorMessage = "You have to enter Id")]
         public int Id { get; set; }
