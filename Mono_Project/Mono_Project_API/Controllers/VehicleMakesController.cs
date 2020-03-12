@@ -13,12 +13,10 @@ namespace Mono_Project_API.Controllers
     public class VehicleMakesController : ControllerBase
     {
         private readonly IVehicleMakeService _vehicleMakeService;
-        private readonly IMapper _mapper;
 
-        public VehicleMakesController(IVehicleMakeService vehicleMakeService, IMapper mapper)
+        public VehicleMakesController(IVehicleMakeService vehicleMakeService)
         {
             _vehicleMakeService = vehicleMakeService;
-            _mapper = mapper;
         }
 
         // GET: api/VehicleMakes
