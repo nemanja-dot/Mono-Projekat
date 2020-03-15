@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Project.Model.Model;
+using Project.Service.Common.Interfaces;
 using Project.Service.Interfaces;
 
 namespace Mono_Project_API.Controllers
@@ -11,34 +12,34 @@ namespace Mono_Project_API.Controllers
     [ApiController]
     public class VehicleModelsController : ControllerBase
     {
-        private readonly IVehicleModelService _vehicleModelService;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public VehicleModelsController(IVehicleModelService vehicleModelService)
+        public VehicleModelsController(IUnitOfWork unitOfWork)
         {
-            _vehicleModelService = vehicleModelService;
+            _unitOfWork = unitOfWork;
         }
 
         // GET: api/VehicleModels
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<VehicleModel>>> GetVehicleModel(PagingData pagingData)
+        public async Task<ActionResult<IEnumerable<VehicleModel>>> GetVehicleModel()
         {
-            var vehicleModelAll = await _vehicleModelService.GetAllAsync(pagingData);
+            var vehicleModelAll = await _unitOfWork.VehicleModel.FindAll().ToListAsync();
 
-            return vehicleModelAll;
+            return Ok(vehicleModelAll);
         }
 
         // GET: api/VehicleModels/5
         [HttpGet("{id}")]
         public async Task<ActionResult<VehicleModel>> GetVehicleModel(int id)
         {
-            var vehicleModel = await _vehicleModelService.FindAsync(id);
+            var vehicleModel = await _unitOfWork.VehicleModel.FindByCondition(m => m.Id == id).ToListAsync();
 
-            if (vehicleModel == null)
+            if (vehicleModel == null || vehicleModel.Count == 0)
             {
                 return NotFound();
             }
 
-            return vehicleModel;
+            return Ok(vehicleModel);
         }
 
         // PUT: api/VehicleModels/5
@@ -56,18 +57,18 @@ namespace Mono_Project_API.Controllers
             {
                 try
                 {
-                    await _vehicleModelService.UpdateAsync(vehicleModel);
+                    await _unitOfWork.VehicleModel.Update(vehicleModel);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!_vehicleModelService.VehicleModelExists(vehicleModel.Id))
+                    /*if (!_vehicleModelService.VehicleModelExists(vehicleModel.Id))
                     {
                         return NotFound();
                     }
                     else
                     {
                         throw;
-                    }
+                    }*/
                 }
             }
 
@@ -80,7 +81,7 @@ namespace Mono_Project_API.Controllers
         [HttpPost]
         public async Task<ActionResult<VehicleModel>> Create(VehicleModel vehicleModel)
         {
-            await _vehicleModelService.CreateAsync(vehicleModel);
+            await _unitOfWork.VehicleModel.Create(vehicleModel);
 
             return CreatedAtAction("GetVehicleModel", new { id = vehicleModel.Id }, vehicleModel);
         }
@@ -94,15 +95,15 @@ namespace Mono_Project_API.Controllers
             {
                 return NotFound();
             }
-            var vehicleModel = await _vehicleModelService.FindAsync(id);
+            var vehicleModel = await _unitOfWork.VehicleModel.FindByCondition(m => m.Id == id).ToListAsync();
 
             if (vehicleModel == null)
             {
                 return NotFound();
             }
-            await _vehicleModelService.DeleteAsync(vehicleModel);
+            await _unitOfWork.VehicleModel.Delete(vehicleModel[0]);
 
-            return vehicleModel;
+            return Ok();
         }
 
        

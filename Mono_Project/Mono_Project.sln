@@ -7,16 +7,23 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mono_Project", "Mono_Projec
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Project.Service", "Project.Service\Project.Service.csproj", "{5725F438-D9E0-4CD5-A82B-44FEDF4AD361}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mono_Project_API", "Mono_Project_API\Mono_Project_API.csproj", "{72FFC52D-3CC1-484F-A0F1-8F76373C8CD9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mono_Project_API", "Mono_Project_API\Mono_Project_API.csproj", "{72FFC52D-3CC1-484F-A0F1-8F76373C8CD9}"
 	ProjectSection(ProjectDependencies) = postProject
 		{5725F438-D9E0-4CD5-A82B-44FEDF4AD361} = {5725F438-D9E0-4CD5-A82B-44FEDF4AD361}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Project.Repository", "Project.Repository\Project.Repository.csproj", "{1CBC191D-7E67-4060-AA53-57C0242944B5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Project.Repository", "Project.Repository\Project.Repository.csproj", "{1CBC191D-7E67-4060-AA53-57C0242944B5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Project.DAL", "Project.DAL\Project.DAL.csproj", "{01CC8F60-AF49-495B-B531-30941F3A6C94}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Project.DAL", "Project.DAL\Project.DAL.csproj", "{01CC8F60-AF49-495B-B531-30941F3A6C94}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Project.Model", "Project.Model\Project.Model.csproj", "{2FB28854-6571-49FE-A493-58030354695B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Project.Model", "Project.Model\Project.Model.csproj", "{2FB28854-6571-49FE-A493-58030354695B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Project.Repository.Common", "Project.Repository.Common\Project.Repository.Common.csproj", "{547C3509-0CCF-4902-B717-14A7D0E390AE}"
+	ProjectSection(ProjectDependencies) = postProject
+		{2FB28854-6571-49FE-A493-58030354695B} = {2FB28854-6571-49FE-A493-58030354695B}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Project.Service.Common", "Project.Service.Common\Project.Service.Common.csproj", "{C472364C-C897-44C9-B08E-70B9468586FC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -48,6 +55,14 @@ Global
 		{2FB28854-6571-49FE-A493-58030354695B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2FB28854-6571-49FE-A493-58030354695B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2FB28854-6571-49FE-A493-58030354695B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{547C3509-0CCF-4902-B717-14A7D0E390AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{547C3509-0CCF-4902-B717-14A7D0E390AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{547C3509-0CCF-4902-B717-14A7D0E390AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{547C3509-0CCF-4902-B717-14A7D0E390AE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C472364C-C897-44C9-B08E-70B9468586FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C472364C-C897-44C9-B08E-70B9468586FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C472364C-C897-44C9-B08E-70B9468586FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C472364C-C897-44C9-B08E-70B9468586FC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
