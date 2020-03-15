@@ -1,5 +1,3 @@
 ﻿Mono_Project/.vs
-Mono_Project/Mono_Project/obj
-Mono_Project/Mono_Project/bin
-Mono_Project/Project.Service/obj
-Mono_Project/Project.Service/bin
+bin
+obj
