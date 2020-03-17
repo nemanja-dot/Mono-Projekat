@@ -4,8 +4,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Project.Model.Model;
-using Project.Service.Common.Interfaces;
-using Project.Service.Interfaces;
+using Project.Service.Common.Interfaces.MVC;
 
 namespace Mono_Project_API.Controllers
 {

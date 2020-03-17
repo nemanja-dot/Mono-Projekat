@@ -1,9 +1,9 @@
-﻿using Project.Repository.Common.Interfaces;
+﻿using Project.Repository.Common.Interfaces.API;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Project.Service.Common.Interfaces
+namespace Project.Service.Common.Interfaces.MVC
 {
     public interface IUnitOfWork
     {

@@ -6,12 +6,13 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Npgsql;
-using Project.Service.Interfaces;
 using Project.Service.Services;
 using AutoMapper;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Project.DAL.Context;
+using Project.Repository.Common.Interfaces.MVC;
+using Project.Service.Common.Interfaces.MVC;
 
 namespace Mono_Project
 {
@@ -55,11 +56,11 @@ namespace Mono_Project
         public void ConfigureContainer(ContainerBuilder builder)
         {
             // Register your own things directly with Autofac, like:
-            builder.RegisterType<VehicleMakeService>().As<IVehicleMakeService>();
-            builder.RegisterType<VehicleModelService>().As<IVehicleModelService>();
+            builder.RegisterType<VehicleMakeService>().As<IVehicleMakeServiceMVC>();
+            builder.RegisterType<VehicleModelService>().As<IVehicleModelServiceMVC>();
 
-            builder.RegisterType<VehicleMakeRepository>().As<IVehicleMakeRepository>();
-            builder.RegisterType<VehicleModelRepository>().As<IVehicleModelRepository>();
+            builder.RegisterType<VehicleMakeRepository>().As<IVehicleMakeRepositoryMVC>();
+            builder.RegisterType<VehicleModelRepository>().As<IVehicleModelRepositoryMVC>();
         }
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

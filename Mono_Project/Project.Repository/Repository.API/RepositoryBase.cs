@@ -1,5 +1,5 @@
 ﻿using System;
-using Project.Repository.Common.Interfaces;
+using Project.Repository.Common.Interfaces.API;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using Project.Model.Model;
@@ -8,7 +8,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace Project.Repository.Common.Services
+namespace Project.Repository.API
 {
     public class RepositoryBase<T> : IRepositoryBase<T> where T : class
     {

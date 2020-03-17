@@ -1,9 +1,9 @@
 ﻿using Project.Model.Model;
 using System.Threading.Tasks;
 
-namespace Project.Service.Interfaces
+namespace Project.Repository.Common.Interfaces.MVC
 {
-   public interface IVehicleModelRepository
+    public interface IVehicleModelRepositoryMVC
     {
         public Task<bool> CreateAsync(VehicleModel vehicleModel);
         public Task<PagingDataList<VehicleModel>> GetAllAsync(PagingData pagingData);
@@ -12,6 +12,6 @@ namespace Project.Service.Interfaces
         public bool VehicleModelExists(int id);
         public Task<VehicleModel> FindAsync(int? id);
 
-    
+
     }
 }

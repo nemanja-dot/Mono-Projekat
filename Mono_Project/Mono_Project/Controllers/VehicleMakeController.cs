@@ -3,17 +3,17 @@ using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Mono_Project.Models;
-using Project.Service.Interfaces;
+using Project.Service.Common.Interfaces.MVC;
 using Project.Model.Model;
 
 namespace Mono_Project.Controllers
 {
     public class VehicleMakeController : Controller
     {
-        private readonly IVehicleMakeService _vehicleMakeService;
+        private readonly IVehicleMakeServiceMVC _vehicleMakeService;
         private readonly IMapper _mapper;
 
-        public VehicleMakeController(IVehicleMakeService vehicleMakeService, IMapper mapper)
+        public VehicleMakeController(IVehicleMakeServiceMVC vehicleMakeService, IMapper mapper)
         {
             _vehicleMakeService = vehicleMakeService;
             _mapper = mapper;

@@ -1,14 +1,15 @@
-﻿using Project.Service.Interfaces;
-using Project.Model.Model;
+﻿using Project.Model.Model;
 using System.Threading.Tasks;
+using Project.Repository.Common.Interfaces.MVC;
+using Project.Service.Common.Interfaces.MVC;
 
 namespace Project.Service.Services
 {
-    public class VehicleModelService : IVehicleModelService
+    public class VehicleModelService : IVehicleModelServiceMVC
     {
-        private readonly IVehicleModelRepository _vehicleModelRepository;
+        private readonly IVehicleModelRepositoryMVC _vehicleModelRepository;
 
-        public VehicleModelService(IVehicleModelRepository vehicleModelRepository)
+        public VehicleModelService(IVehicleModelRepositoryMVC vehicleModelRepository)
         {
             _vehicleModelRepository = vehicleModelRepository;
         }

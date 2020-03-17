@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Project.Model.Interfaces;
+using Project.Model.Common.Interfaces;
 
 namespace Project.Model.Model
 {

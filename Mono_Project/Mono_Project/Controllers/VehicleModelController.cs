@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Project.Model.Model;
-using Project.Service.Interfaces;
+using Project.Service.Common.Interfaces.MVC;
 using AutoMapper;
 using Mono_Project.Models;
 
@@ -12,11 +12,11 @@ namespace Mono_Project.Controllers
 {
     public class VehicleModelController : Controller
     {
-        private readonly IVehicleModelService _vehicleModelService;
-        private readonly IVehicleMakeService _vehicleMakeService;
+        private readonly IVehicleModelServiceMVC _vehicleModelService;
+        private readonly IVehicleMakeServiceMVC _vehicleMakeService;
         private readonly IMapper _mapper;
 
-        public VehicleModelController(IVehicleModelService vehicleModelService, IVehicleMakeService vehicleMakeService, IMapper mapper)
+        public VehicleModelController(IVehicleModelServiceMVC vehicleModelService, IVehicleMakeServiceMVC vehicleMakeService, IMapper mapper)
         {
             _vehicleModelService = vehicleModelService;
             _vehicleMakeService = vehicleMakeService;

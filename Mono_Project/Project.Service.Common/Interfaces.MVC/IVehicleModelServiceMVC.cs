@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Project.Service.Interfaces
+namespace Project.Service.Common.Interfaces.MVC
 {
-   public interface IVehicleModelService
+    public interface IVehicleModelServiceMVC
     {
         public Task<bool> CreateAsync(VehicleModel vehicleModel);
         public Task<PagingDataList<VehicleModel>> GetAllAsync(PagingData pagingData);
@@ -12,7 +12,5 @@ namespace Project.Service.Interfaces
         public Task<bool> DeleteAsync(VehicleModel vehicleModel);
         public bool VehicleModelExists(int id);
         public Task<VehicleModel> FindAsync(int? id);
-
-    
     }
 }

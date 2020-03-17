@@ -1,9 +1,9 @@
 ﻿using Project.Model.Model;
 using System.Threading.Tasks;
 
-namespace Project.Service.Interfaces
+namespace Project.Repository.Common.Interfaces.MVC
 {
-    public interface IVehicleMakeService
+    public interface IVehicleMakeRepositoryMVC
     {
         public Task<bool> CreateAsync(VehicleMake vehicleMake);
         public Task<PagingDataList<VehicleMake>> GetAllAsync(PagingData pagingData = null);

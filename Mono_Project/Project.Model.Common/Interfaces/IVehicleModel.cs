@@ -1,6 +1,10 @@
-﻿namespace Project.Model.Interfaces
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace Project.Model.Common.Interfaces
 {
-    interface IVehicleModel
+    public interface IVehicleModel
     {
         public int Id { get; set; }
         public int VehicleMakeId { get; set; }

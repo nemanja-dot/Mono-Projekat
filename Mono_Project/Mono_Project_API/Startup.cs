@@ -11,10 +11,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Npgsql;
 using Project.DAL.Context;
-using Project.Service.Common.Interfaces;
-using Project.Service.Common.Services;
-using Project.Service.Interfaces;
-using Project.Service.Services;
+using Project.Service.Common.Interfaces.MVC;
+using Project.Service.UnitOfWork.API;
 
 namespace Mono_Project_API
 {
@@ -28,12 +26,21 @@ namespace Mono_Project_API
         public IConfiguration Configuration { get; }
 
         // public ILifetimeScope AutofacContainer { get; private set; }
-
+        readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy(MyAllowSpecificOrigins,
+                builder =>
+                {
+                    builder.WithOrigins("http://localhost:3000", "https://localhost");
+                });
+            });
 
             var connectionString = Configuration["PostgreSql:ConnectionString"];
             var dbPassword = Configuration["PostgreSql:DbPassword"];
@@ -78,6 +85,8 @@ namespace Mono_Project_API
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseCors(MyAllowSpecificOrigins);
 
             app.UseEndpoints(endpoints =>
             {

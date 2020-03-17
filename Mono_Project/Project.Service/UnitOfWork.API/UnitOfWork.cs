@@ -1,28 +1,31 @@
 ﻿using Project.DAL.Context;
-using Project.Repository.Common.Interfaces;
-using Project.Repository.Common.Services;
-using Project.Service.Common.Interfaces;
+using Project.Repository.API;
+using Project.Repository.Common.Interfaces.API;
+using Project.Service.Common.Interfaces.MVC;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Project.Service.Common.Services
+
+namespace Project.Service.UnitOfWork.API
 {
-   public class UnitOfWork : IUnitOfWork
+    public class UnitOfWork : IUnitOfWork
     {
         private ApplicationContext _applicationContext;
         private IVehicleMakeRepository _makeRepository;
         private IVehicleModelRepository _modelRepository;
 
-        public IVehicleMakeRepository VehicleMake {
-            get {
+        public IVehicleMakeRepository VehicleMake
+        {
+            get
+            {
                 if (_makeRepository == null)
                 {
                     _makeRepository = new VehicleMakeRepository(_applicationContext);
                 }
 
                 return _makeRepository;
-                    }
+            }
         }
 
         public IVehicleModelRepository VehicleModel

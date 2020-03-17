@@ -1,13 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Project.DAL.Context;
-using Project.Service.Interfaces;
+using Project.Repository.Common.Interfaces.MVC;
 using Project.Model.Model;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace Project.Service.Services
 {
-    public class VehicleModelRepository : IVehicleModelRepository
+    public class VehicleModelRepository : IVehicleModelRepositoryMVC
     {
         private readonly ApplicationContext _applicationDbContext;
 
