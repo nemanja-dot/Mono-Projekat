@@ -1,4 +1,5 @@
-﻿using Project.Model.Model;
+﻿using Project.Common;
+using Project.Model.Model;
 using System.Threading.Tasks;
 
 namespace Project.Service.Common.Interfaces.MVC

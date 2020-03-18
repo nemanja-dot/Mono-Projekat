@@ -9,7 +9,7 @@
       "Project.Repository/1.0.0": {
         "dependencies": {
           "Project.DAL": "1.0.0",
-          "Project.Model": "1.0.0"
+          "Project.Repository.Common": "1.0.0"
         },
         "runtime": {
           "Project.Repository.dll": {}
@@ -219,6 +219,11 @@
       "System.ComponentModel.Annotations/4.7.0": {},
       "System.Diagnostics.DiagnosticSource/4.7.0": {},
       "System.Runtime.CompilerServices.Unsafe/4.6.0": {},
+      "Project.Common/1.0.0": {
+        "runtime": {
+          "Project.Common.dll": {}
+        }
+      },
       "Project.DAL/1.0.0": {
         "dependencies": {
           "Npgsql.EntityFrameworkCore.PostgreSQL": "3.1.2",
@@ -229,8 +234,25 @@
         }
       },
       "Project.Model/1.0.0": {
+        "dependencies": {
+          "Project.Model.Common": "1.0.0"
+        },
         "runtime": {
           "Project.Model.dll": {}
+        }
+      },
+      "Project.Model.Common/1.0.0": {
+        "runtime": {
+          "Project.Model.Common.dll": {}
+        }
+      },
+      "Project.Repository.Common/1.0.0": {
+        "dependencies": {
+          "Project.Common": "1.0.0",
+          "Project.Model": "1.0.0"
+        },
+        "runtime": {
+          "Project.Repository.Common.dll": {}
         }
       }
     }
@@ -402,12 +424,27 @@
       "path": "system.runtime.compilerservices.unsafe/4.6.0",
       "hashPath": "system.runtime.compilerservices.unsafe.4.6.0.nupkg.sha512"
     },
+    "Project.Common/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
     "Project.DAL/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
     },
     "Project.Model/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Project.Model.Common/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Project.Repository.Common/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

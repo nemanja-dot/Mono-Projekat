@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Project.Model.Model
+namespace Project.Common
 {
     public class PagingData
     {

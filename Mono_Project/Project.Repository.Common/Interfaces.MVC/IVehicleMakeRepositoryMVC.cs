@@ -1,5 +1,7 @@
-﻿using Project.Model.Model;
+﻿using Project.Common;
+using Project.Model.Model;
 using System.Threading.Tasks;
+
 
 namespace Project.Repository.Common.Interfaces.MVC
 {
