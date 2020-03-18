@@ -11,8 +11,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Npgsql;
 using Project.DAL.Context;
-using Project.Service.Common.Interfaces.MVC;
-using Project.Service.UnitOfWork.API;
+using Project.Repository.Common.Interfaces.API;
+using Project.Repository.Repository.API;
+using Project.Service.Common.Interfaces.API;
+using Project.Service.Services.API;
+using System;
 
 namespace Mono_Project_API
 {
@@ -25,7 +28,8 @@ namespace Mono_Project_API
 
         public IConfiguration Configuration { get; }
 
-        // public ILifetimeScope AutofacContainer { get; private set; }
+        public ILifetimeScope AutofacContainer { get; private set; }
+
         readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -52,23 +56,28 @@ namespace Mono_Project_API
 
             services.AddDbContext<ApplicationContext>(options => options.UseNpgsql(builder.ConnectionString));
 
-            //Add UnitOfWork
-            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            // Add UnitOfWork Test
+            // services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             services.AddControllers();
             services.AddAutoMapper(typeof(Startup));
 
         }
 
-       /* public void ConfigureContainer(ContainerBuilder builder)
+        public void ConfigureContainer(ContainerBuilder builder)
         {
             // Register your own things directly with Autofac, like:
-            builder.RegisterType<VehicleMakeService>().As<IVehicleMakeService>();
-            builder.RegisterType<VehicleModelService>().As<IVehicleModelService>();
+            // Vehicle Service
+            builder.RegisterType<VehicleMakeService>().As<IVehicleMakeServiceAPI>();
+            builder.RegisterType<VehicleModelService>().As<IVehicleModelServiceAPI>();
 
-            builder.RegisterType<VehicleMakeRepository>().As<IVehicleMakeRepository>();
-            builder.RegisterType<VehicleModelRepository>().As<IVehicleModelRepository>();
-        }*/
+            // UnitOfWork
+            builder.RegisterType<UnitOfWork>().As<IUnitOfWork>();
+
+            // Repository Test
+            // builder.RegisterType<VehicleMakeRepository>().As<IVehicleMakeRepository>();
+            // builder.RegisterType<VehicleModelRepository>().As<IVehicleModelRepository>();
+        }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -80,7 +89,7 @@ namespace Mono_Project_API
 
             app.UseHttpsRedirection();
 
-            // this.AutofacContainer = app.ApplicationServices.GetAutofacRoot();
+            this.AutofacContainer = app.ApplicationServices.GetAutofacRoot();
 
             app.UseRouting();
 

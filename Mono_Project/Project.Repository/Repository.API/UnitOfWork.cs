@@ -1,13 +1,8 @@
 ﻿using Project.DAL.Context;
 using Project.Repository.API;
 using Project.Repository.Common.Interfaces.API;
-using Project.Service.Common.Interfaces.MVC;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
-
-namespace Project.Service.UnitOfWork.API
+namespace Project.Repository.Repository.API
 {
     public class UnitOfWork : IUnitOfWork
     {

@@ -1,8 +1,6 @@
 ﻿using System;
 using Project.Repository.Common.Interfaces.API;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using Project.Model.Model;
 using Project.DAL.Context;
 using System.Linq;
 using System.Linq.Expressions;

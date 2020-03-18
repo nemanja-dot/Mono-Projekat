@@ -1,8 +1,8 @@
-﻿using AutoMapper;
-using Mono_Project.Models;
+﻿using Mono_Project_API.Models;
 using Project.Model.Model;
+using AutoMapper;
 
-namespace Mono_Project.Profiles
+namespace Mono_Project_API.Profiles
 {
     public class VehicleMakeProfile : Profile
     {
@@ -10,7 +10,7 @@ namespace Mono_Project.Profiles
         {
             CreateMap<VehicleMake, VehicleMakeViewModel>()
                 .ReverseMap();
-                
+
         }
     }
 }

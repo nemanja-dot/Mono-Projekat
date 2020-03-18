@@ -3,8 +3,9 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Mono_Project_API.Models;
 using Project.Model.Model;
-using Project.Service.Common.Interfaces.MVC;
+using Project.Service.Common.Interfaces.API;
 
 namespace Mono_Project_API.Controllers
 {
@@ -12,43 +13,52 @@ namespace Mono_Project_API.Controllers
     [ApiController]
     public class VehicleMakesController : ControllerBase
     {
-        // private readonly IVehicleMakeService _vehicleMakeService;
+        // VehicleMakeServiceAPI
+        private readonly IVehicleMakeServiceAPI _vehicleMakeService;
 
-        // UnitOfWork
-        private readonly IUnitOfWork _unitOfWork;
+        // AutoMapper
+        private readonly IMapper _mapper;
 
-        public VehicleMakesController(IUnitOfWork unitOfWork)
+        public VehicleMakesController(IVehicleMakeServiceAPI vehicleMakeService, IMapper mapper)
         {
-            _unitOfWork = unitOfWork;
+            _vehicleMakeService = vehicleMakeService;
+            _mapper = mapper;
         }
 
         // GET: api/VehicleMakes
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<VehicleMake>>> GetVehicleMake()
+        public async Task<ActionResult<IEnumerable<VehicleMakeViewModel>>> GetVehicleMake()
         {
-            return await _unitOfWork.VehicleMake.FindAll().ToListAsync();
+            var allVehicleMakes = await _vehicleMakeService.GetAllAsync();
+            var vehicleMakeViewModel = _mapper.Map<IEnumerable<VehicleMakeViewModel>>(allVehicleMakes);
+
+            return Ok(vehicleMakeViewModel);
         }
 
         // GET: api/VehicleMakes/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<VehicleMake>> GetVehicleMake(int id)
+        public async Task<ActionResult<VehicleMakeViewModel>> GetVehicleMake(int id)
         {
-            var vehicleMake = await _unitOfWork.VehicleMake.FindByCondition(m => m.Id == id).ToListAsync();
+            var vehicleMake = await _vehicleMakeService.FindAsync(id);
 
-            if (vehicleMake == null || vehicleMake.Count == 0)
+            if (vehicleMake == null)
             {
                 return NotFound();
             }
 
-            return Ok(vehicleMake);
+            var vehicleMakeViewModel = _mapper.Map<VehicleMakeViewModel>(vehicleMake);
+
+            return Ok(vehicleMakeViewModel);
         }
 
         // PUT: api/VehicleMakes/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutVehicleMake(int id, VehicleMake vehicleMake)
+        public async Task<IActionResult> PutVehicleMake(int id, VehicleMakeViewModel vehicleMake)
         {
+            var vehicleMakeViewModel = _mapper.Map<VehicleMake>(vehicleMake);
+
             if (id != vehicleMake.Id)
             {
                 return BadRequest();
@@ -58,11 +68,11 @@ namespace Mono_Project_API.Controllers
             {
                 try
                 {
-                    await _unitOfWork.VehicleMake.Update(vehicleMake);
+                    await _vehicleMakeService.UpdateAsync(vehicleMakeViewModel);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    /*if (!_unitOfWork.VehicleMake.VehicleMakeExists(vehicleMake.Id))
+                    /*if (!_vehicleMakeService.VehicleMakeExists(vehicleMake.Id))
                     {
                         return NotFound();
                     }
@@ -80,9 +90,11 @@ namespace Mono_Project_API.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPost]
-        public async Task<ActionResult<VehicleMake>> PostVehicleMake(VehicleMake vehicleMake)
+        public async Task<ActionResult<VehicleMake>> PostVehicleMake(VehicleMakeViewModel vehicleMake)
         {
-            await _unitOfWork.VehicleMake.Create(vehicleMake);
+            var vehicleMakeViewModel = _mapper.Map<VehicleMake>(vehicleMake);
+
+            await _vehicleMakeService.CreateAsync(vehicleMakeViewModel);
            
 
             return CreatedAtAction("GetVehicleMake", new { id = vehicleMake.Id }, vehicleMake);
@@ -97,13 +109,16 @@ namespace Mono_Project_API.Controllers
                 return NotFound();
             }
 
-            var vehicleMake = await _unitOfWork.VehicleMake.FindByCondition((m) => m.Id == id).ToListAsync();
-            if (vehicleMake == null || vehicleMake.Count == 0)
+            var vehicleMake = await _vehicleMakeService.FindAsync(id);
+            
+            if (vehicleMake == null)
             {
                 return NotFound();
             }
 
-            return Ok(await _unitOfWork.VehicleMake.Delete(vehicleMake[0]));
+            var vehicleMakeViewModel = _mapper.Map<VehicleMake>(vehicleMake);
+
+            return Ok(await _vehicleMakeService.DeleteAsync(vehicleMakeViewModel));
         }
 
         
