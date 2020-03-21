@@ -10,7 +10,7 @@ namespace Project.Service.Common.Interfaces.API
     public interface IVehicleMakeServiceAPI
     {
         public Task<bool> CreateAsync(VehicleMake vehicleMake);
-        public Task<IEnumerable<VehicleMake>> GetAllAsync(PagingData pagingData = null);
+        public Task<PagingDataList<VehicleMake>> GetAllAsync(PagingData pagingData = null);
         public Task<bool> UpdateAsync(VehicleMake vehicleMake);
         public Task<bool> DeleteAsync(VehicleMake vehicleMake);
         public Task<bool> VehicleMakeExists(int id);
