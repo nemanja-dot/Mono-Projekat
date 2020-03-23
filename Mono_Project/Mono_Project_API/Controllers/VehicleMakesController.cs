@@ -28,7 +28,7 @@ namespace Mono_Project_API.Controllers
 
         // GET: api/VehicleMakes
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<VehicleMakeViewModel>>> GetVehicleMake(PagingData pagingData = null)
+        public async Task<ActionResult> GetVehicleMake(PagingData pagingData)
         {
 
             pagingData.Page ??= 0;
@@ -42,19 +42,20 @@ namespace Mono_Project_API.Controllers
 
         // GET: api/VehicleMakes/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<VehicleMakeViewModel>> GetVehicleMake(int id)
+        public async Task<ActionResult> GetVehicleMake(int id)
         {
             var vehicleMake = await _vehicleMakeService.FindAsync(id);
 
             if (vehicleMake == null)
             {
-                return NotFound();
+                return NotFound(id);
             }
 
-            var vehicleMakeViewModel = _mapper.Map<VehicleMakeViewModel>(vehicleMake);
+          var vehicleMakeViewModel = _mapper.Map<VehicleMakeViewModel>(vehicleMake);
 
             return Ok(vehicleMakeViewModel);
         }
+        
 
         // PUT: api/VehicleMakes/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
@@ -62,7 +63,7 @@ namespace Mono_Project_API.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutVehicleMake(int id, VehicleMakeViewModel vehicleMake)
         {
-            var vehicleMakeViewModel = _mapper.Map<VehicleMake>(vehicleMake);
+           var vehicleMakeViewModel = _mapper.Map<VehicleMake>(vehicleMake);
 
             if (id != vehicleMake.Id)
             {
@@ -84,8 +85,8 @@ namespace Mono_Project_API.Controllers
                     else
                     {
                         throw;
-                    }*/
-                }
+                    } */
+                } 
             }
 
             return NoContent();
@@ -95,8 +96,13 @@ namespace Mono_Project_API.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPost]
-        public async Task<ActionResult<VehicleMake>> PostVehicleMake(VehicleMakeViewModel vehicleMake)
+        public async Task<ActionResult> PostVehicleMake(VehicleMakeViewModel vehicleMake)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             var vehicleMakeViewModel = _mapper.Map<VehicleMake>(vehicleMake);
 
             await _vehicleMakeService.CreateAsync(vehicleMakeViewModel);
@@ -104,28 +110,28 @@ namespace Mono_Project_API.Controllers
 
             return CreatedAtAction("GetVehicleMake", new { id = vehicleMake.Id }, vehicleMake);
         }
-
+        
         // DELETE: api/VehicleMakes/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<VehicleMake>> DeleteVehicleMake(int? id)
+        public async Task<ActionResult> DeleteVehicleMake(int? id)
         {
             if (id == null)
             {
-                return NotFound();
+                return NotFound(id);
             }
 
             var vehicleMake = await _vehicleMakeService.FindAsync(id);
             
             if (vehicleMake == null)
             {
-                return NotFound();
+                return NotFound(id);
             }
 
-            var vehicleMakeViewModel = _mapper.Map<VehicleMake>(vehicleMake);
+         var vehicleMakeViewModel = _mapper.Map<VehicleMake>(vehicleMake);
 
-            return Ok(await _vehicleMakeService.DeleteAsync(vehicleMakeViewModel));
+         return Ok(await _vehicleMakeService.DeleteAsync(vehicleMakeViewModel));
         }
-
         
+
     }
 }
