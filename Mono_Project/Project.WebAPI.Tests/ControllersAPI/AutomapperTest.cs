@@ -18,7 +18,7 @@ namespace Project.WebAPI.Tests.ControllersAPI
                     // Auto Mapper Configurations
                     var mappingConfig = new MapperConfiguration(mc =>
                     {
-                        mc.AddProfile(new VehicleMakeProfile());
+                        mc.AddProfile(new VehicleProfiles());
                     });
 
                     IMapper mapper = mappingConfig.CreateMapper();
