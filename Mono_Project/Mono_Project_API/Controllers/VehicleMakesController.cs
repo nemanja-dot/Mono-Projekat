@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
@@ -35,7 +36,10 @@ namespace Mono_Project_API.Controllers
             pagingData.Count ??= 10;
 
             var allVehicleMakes = await _vehicleMakeService.GetAllAsync(pagingData);
-            var vehicleMakeViewModel = _mapper.Map<IEnumerable<VehicleMakeViewModel>>(allVehicleMakes);
+            var vehicleMakeViewModel = _mapper.Map<PagingDataListViewModel<VehicleMakeViewModel>>(allVehicleMakes);
+
+            vehicleMakeViewModel.Items.ForEach(m => 
+                m.ModelCount = allVehicleMakes.First(d => d.Id == m.Id).VehicleModels.Count);
 
             return Ok(vehicleMakeViewModel);
         }

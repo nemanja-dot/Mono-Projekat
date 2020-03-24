@@ -19,12 +19,12 @@ namespace Project.Repository.API
 
         public IQueryable<T> FindAll()
         {
-            return this.applicationContext.Set<T>().AsNoTracking();
+            return this.applicationContext.Set<T>().AsQueryable();
         }
 
         public IQueryable<T> FindByCondition(Expression<Func<T, bool>> expression)
         {
-            return this.applicationContext.Set<T>().Where(expression).AsNoTracking();
+            return this.applicationContext.Set<T>().Where(expression).AsQueryable();
         }
 
         public async Task<bool> Create(T entity)

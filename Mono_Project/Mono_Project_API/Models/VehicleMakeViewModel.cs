@@ -13,5 +13,7 @@ namespace Mono_Project_API.Models
         public string Name { get; set; }
         
         public string Abrv { get; set; }
+
+        public int ModelCount { get; set; }
     }
 }

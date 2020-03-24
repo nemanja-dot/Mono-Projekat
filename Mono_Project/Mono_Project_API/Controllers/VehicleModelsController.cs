@@ -4,6 +4,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Mono_Project_API.Models;
+using Project.Common;
 using Project.Model.Model;
 using Project.Service.Common.Interfaces.API;
 
@@ -27,11 +28,14 @@ namespace Mono_Project_API.Controllers
 
         // GET: api/VehicleModels
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<VehicleModelViewModel>>> GetVehicleModel()
+        public async Task<ActionResult> GetVehicleModel(PagingData pagingData)
         {
-            var vehicleModelAll = await _vehicleModelServiceAPI.GetAllAsync();
+            pagingData.Page ??= 0;
+            pagingData.Count ??= 10;
 
-            var vehicleMoldelsAllView = _mapper.Map<List<VehicleModelViewModel>>(vehicleModelAll);
+            var vehicleModelAll = await _vehicleModelServiceAPI.GetAllAsync(pagingData);
+
+            var vehicleMoldelsAllView = _mapper.Map<PagingDataListViewModel<VehicleModelViewModel>>(vehicleModelAll);
             return Ok(vehicleMoldelsAllView);
         }
 

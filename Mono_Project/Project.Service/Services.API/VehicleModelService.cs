@@ -7,6 +7,7 @@ using Project.Service.Common.Interfaces.API;
 using Project.Common;
 using Microsoft.EntityFrameworkCore;
 using Project.Repository.Common.Interfaces.API;
+using System.Linq;
 
 namespace Project.Service.Services.API
 {
@@ -33,9 +34,41 @@ namespace Project.Service.Services.API
         {
             return await _unitOfWork.VehicleModel.FindByCondition(m => m.Id == id).SingleOrDefaultAsync();
         }
-        public async Task<IEnumerable<VehicleModel>> GetAllAsync(PagingData pagingData = null)
+        public async Task<PagingDataList<VehicleModel>> GetAllAsync(PagingData pagingData = null)
         {
-            return await _unitOfWork.VehicleModel.FindAll().ToListAsync();
+            var allVehicleModel = _unitOfWork.VehicleModel.FindAll();
+
+
+            if (pagingData == null)
+            {
+                var allResults = await allVehicleModel.ToListAsync();
+                return new PagingDataList<VehicleModel>(allResults, allResults.Count, 0, allResults.Count);
+            }
+
+            if (!string.IsNullOrEmpty(pagingData.SearchString))
+            {
+                allVehicleModel = allVehicleModel.Where(s => s.Name.ToLower().Contains(pagingData.SearchString.ToLower())
+                                       || s.Abrv.ToLower().Contains(pagingData.SearchString.ToLower()));
+            }
+
+            switch (pagingData.SortOrder)
+            {
+                case "name_desc":
+                    allVehicleModel = allVehicleModel.OrderByDescending(s => s.Name);
+                    break;
+                default:
+                    allVehicleModel = allVehicleModel.OrderBy(s => s.Name);
+                    break;
+            }
+
+            var count = await allVehicleModel.CountAsync();
+
+            var currentPage = pagingData.Page ?? 0;
+            var take = pagingData.Count ?? 10;
+
+            var results = await allVehicleModel.Skip(currentPage * take).Take(take).ToListAsync();
+
+            return new PagingDataList<VehicleModel>(results, count, currentPage, take);
         }
 
         public async Task<bool> UpdateAsync(VehicleModel vehicleModel)

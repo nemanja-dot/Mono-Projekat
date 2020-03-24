@@ -16,6 +16,7 @@ using Project.Repository.Repository.API;
 using Project.Service.Common.Interfaces.API;
 using Project.Service.Services.API;
 using System;
+using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
 
 namespace Mono_Project_API
 {
@@ -35,7 +36,10 @@ namespace Mono_Project_API
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
+            services.AddMvc().
+                AddNewtonsoftJson(options =>
+    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+);
 
             services.AddCors(options =>
             {

@@ -68,7 +68,7 @@ namespace Project.Service.Services.API
             var take = pagingData.Count ?? 10;
 
             var results = await allVehicleMake.Skip(currentPage * take).Take(take).ToListAsync();
-
+            
             return new PagingDataList<VehicleMake>(results, count, currentPage, take);
         }
 
