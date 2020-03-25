@@ -38,8 +38,8 @@ namespace Mono_Project_API.Controllers
             var allVehicleMakes = await _vehicleMakeService.GetAllAsync(pagingData);
             var vehicleMakeViewModel = _mapper.Map<PagingDataListViewModel<VehicleMakeViewModel>>(allVehicleMakes);
 
-            vehicleMakeViewModel.Items.ForEach(m => 
-                m.ModelCount = allVehicleMakes.First(d => d.Id == m.Id).VehicleModels.Count);
+            // vehicleMakeViewModel.Items.ForEach(m => 
+               // m.ModelCount = allVehicleMakes.First(d => d.Id == m.Id).VehicleModels.Count);
 
             return Ok(vehicleMakeViewModel);
         }
@@ -65,9 +65,9 @@ namespace Mono_Project_API.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutVehicleMake(int id, VehicleMakeViewModel vehicleMake)
+        public async Task<IActionResult> PutVehicleMake(int id, VehicleMakeViewModel vehicleMakeViewModel)
         {
-           var vehicleMakeViewModel = _mapper.Map<VehicleMake>(vehicleMake);
+           var vehicleMake = _mapper.Map<VehicleMake>(vehicleMakeViewModel);
 
             if (id != vehicleMake.Id)
             {
@@ -78,18 +78,18 @@ namespace Mono_Project_API.Controllers
             {
                 try
                 {
-                    await _vehicleMakeService.UpdateAsync(vehicleMakeViewModel);
+                    await _vehicleMakeService.UpdateAsync(vehicleMake);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    /*if (!_vehicleMakeService.VehicleMakeExists(vehicleMake.Id))
+                    if (await _vehicleMakeService.VehicleMakeExists(vehicleMake.Id))
                     {
                         return NotFound();
                     }
                     else
                     {
                         throw;
-                    } */
+                    } 
                 } 
             }
 
@@ -100,19 +100,19 @@ namespace Mono_Project_API.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPost]
-        public async Task<ActionResult> PostVehicleMake(VehicleMakeViewModel vehicleMake)
+        public async Task<ActionResult> PostVehicleMake(VehicleMakeViewModel vehicleMakeViewModel)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var vehicleMakeViewModel = _mapper.Map<VehicleMake>(vehicleMake);
+            var vehicleMake = _mapper.Map<VehicleMake>(vehicleMakeViewModel);
 
-            await _vehicleMakeService.CreateAsync(vehicleMakeViewModel);
+            await _vehicleMakeService.CreateAsync(vehicleMake);
            
 
-            return CreatedAtAction("GetVehicleMake", new { id = vehicleMake.Id }, vehicleMake);
+            return CreatedAtAction("GetVehicleMake", new { id = vehicleMakeViewModel.Id }, vehicleMakeViewModel);
         }
         
         // DELETE: api/VehicleMakes/5
@@ -124,16 +124,18 @@ namespace Mono_Project_API.Controllers
                 return NotFound(id);
             }
 
-            var vehicleMake = await _vehicleMakeService.FindAsync(id);
+            var vehicleMakeViewModel = await _vehicleMakeService.FindAsync(id);
             
-            if (vehicleMake == null)
+            if (vehicleMakeViewModel == null)
             {
                 return NotFound(id);
             }
 
-         var vehicleMakeViewModel = _mapper.Map<VehicleMake>(vehicleMake);
+         var vehicleMake = _mapper.Map<VehicleMake>(vehicleMakeViewModel);
 
-         return Ok(await _vehicleMakeService.DeleteAsync(vehicleMakeViewModel));
+         var deleteVehicleMake = await _vehicleMakeService.DeleteAsync(vehicleMake);
+
+         return Ok(deleteVehicleMake);
         }
         
 

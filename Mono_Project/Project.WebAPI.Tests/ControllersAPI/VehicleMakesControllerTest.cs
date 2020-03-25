@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using Xunit;
+using System.Linq;
 
 namespace Project.WebAPI.Tests.ControllersAPI
 {
@@ -28,82 +29,32 @@ namespace Project.WebAPI.Tests.ControllersAPI
             _vehicleMakesController = new VehicleMakesController(_mockService.Object);
         }
         */
-
-        // GET: api/VehicleMakes/5
-        [Fact]
-        public async Task GetVehicleMake_ReturnsHttpNotFound_ForInvalidId()
+        private VehicleMakeViewModel GetTestMakesViewModel()
         {
-            // Arrange
-            int testId = -10;
-            var mockRepo = new Mock<IVehicleMakeServiceAPI>();
-            mockRepo.Setup(repo => repo.FindAsync(testId))
-                .ReturnsAsync((VehicleMake)null);
-            var controller = new VehicleMakesController(mockRepo.Object, AutomapperTest.Mapper);
-
-            // Act
-            var result = await controller.GetVehicleMake(testId);
-
-            // Assert
-            var notFoundObjectResult = Assert.IsType<NotFoundObjectResult>(result);
-            Assert.Equal(testId, notFoundObjectResult.Value);
+            var vehicleMakeViewModel = new VehicleMakeViewModel()
+            {
+                Id = 2,
+                Name = "Test",
+                Abrv = "T",
+            };
+            return vehicleMakeViewModel;
         }
 
-        // DELETE: api/VehicleMakes/5
-        [Fact]
-        public async Task DeleteVehicleMake_ReturnsHttpNotFound_ForInvalidId()
+        private VehicleMake GetTestMake()
         {
-            // Arrange
-            int testId = -10;
-            var mockRepo = new Mock<IVehicleMakeServiceAPI>();
-            mockRepo.Setup(repo => repo.FindAsync(testId))
-                .ReturnsAsync((VehicleMake)null);
-            var controller = new VehicleMakesController(mockRepo.Object, AutomapperTest.Mapper);
-
-            // Act
-            var result = await controller.DeleteVehicleMake(testId);
-
-            // Assert
-            var notFoundObjectResult = Assert.IsType<NotFoundObjectResult>(result);
-            Assert.Equal(testId, notFoundObjectResult.Value);
-        }
-        [Fact]
-        public async Task DeleteVehicleMake_ReturnsHttpNotFound_ForIdNull()
-        {
-            // Arrange
-            int? testId = null;
-            var mockRepo = new Mock<IVehicleMakeServiceAPI>();
-            mockRepo.Setup(repo => repo.FindAsync(testId))
-                .ReturnsAsync((VehicleMake)null);
-            var controller = new VehicleMakesController(mockRepo.Object, AutomapperTest.Mapper);
-
-            // Act
-            var result = await controller.DeleteVehicleMake(testId);
-
-            // Assert
-            var notFoundObjectResult = Assert.IsType<NotFoundObjectResult>(result);
-            Assert.Equal(testId, notFoundObjectResult.Value);
+            var vehicleMake = new VehicleMake()
+            {
+                Id = 2,
+                Name = "Test",
+                Abrv = "T",
+                VehicleModels = null
+            };
+            return vehicleMake;
         }
 
-        // POST: api/VehicleMakes
-        [Fact]
-        public async Task PostVehicleMake_ReturnsBadRequest_GivenInvalidModel()
-        {
-            // Arrange & Act
-            var mockRepo = new Mock<IVehicleMakeServiceAPI>();
-            var controller = new VehicleMakesController(mockRepo.Object, AutomapperTest.Mapper);
-            controller.ModelState.AddModelError("error", "some error");
 
-            // Act
-            var result = await controller.PostVehicleMake(vehicleMake: null);
-
-            // Assert
-            Assert.IsType<BadRequestObjectResult>(result);
-        }
-        
-        [Fact]
-        public async Task GetItemsReturnsOk()
+        private PagingData PagingDataTest()
         {
-            // Arrange
             var pagingData = new PagingData
             {
                 Count = 0,
@@ -111,10 +62,42 @@ namespace Project.WebAPI.Tests.ControllersAPI
                 SearchString = null,
                 SortOrder = null,
                 VehicleMakeId = 0
-                
-            }; 
+
+            };
+            return pagingData;
+        }
+        private PagingDataList<VehicleMake> pagingDataList() 
+        {
+            var results = new List<VehicleMake>
+            {
+                new VehicleMake()
+                {
+                    Id = 2,
+                    Name = "Test",
+                    Abrv = "T",
+                    VehicleModels = null
+                    }
+            };
+            var count = 10;
+            var currentPage = 0;
+            var take = 10;
+
+
+
+            return new PagingDataList<VehicleMake>(results, count, currentPage, take);
+        }
+
+
+        // GET: api/VehicleMakes
+        [Fact]
+        public async Task GetVehicleMake_ReturnsOkObjectResult_ForGetVehicleMake()
+        {
+            // Arrange
+            var pagingData = PagingDataTest();
+            var pagingDataList = this.pagingDataList();
             var itemServiceMock = new Mock<IVehicleMakeServiceAPI>();
-            itemServiceMock.Setup(service => service.GetAllAsync(pagingData));
+            itemServiceMock.Setup(service => service.GetAllAsync(pagingData))
+                .ReturnsAsync(pagingDataList);
 
             var controller = new VehicleMakesController(itemServiceMock.Object, AutomapperTest.Mapper);
 
@@ -125,25 +108,174 @@ namespace Project.WebAPI.Tests.ControllersAPI
             Assert.IsType<OkObjectResult>(result);
         }
 
-        // PUT: api/VehicleMakes/5 
-        /*
+        // GET: api/VehicleMakes/5
         [Fact]
-        public async Task PutVehicleMake_ReturnsHttpNotFound_ForInvalidId()
+        public async Task GetVehicleMake_ReturnsHttpNotFound_ForVehicleMakeNull()
         {
             // Arrange
-            int testId = -10;
-            var mockRepo = new Mock<IMapper>();
+            int testId = GetTestMake().Id;
+            var mockRepo = new Mock<IVehicleMakeServiceAPI>();
             mockRepo.Setup(repo => repo.FindAsync(testId))
-                .ReturnsAsync((VehicleMakeViewModel)null);
+                .ReturnsAsync((VehicleMake)null);
             var controller = new VehicleMakesController(mockRepo.Object, AutomapperTest.Mapper);
 
             // Act
-            var result = await controller.PutVehicleMake(testId, vehicleMake);
+            var result = await controller.GetVehicleMake(testId);
 
             // Assert
             var notFoundObjectResult = Assert.IsType<NotFoundObjectResult>(result);
+            mockRepo.Verify();
+            Assert.Equal(404, notFoundObjectResult.StatusCode);
             Assert.Equal(testId, notFoundObjectResult.Value);
-        } */
+        }
+        [Fact]
+        public async Task GetVehicleMake_ReturnsVehicleMakeViewModel_ForGetVehicleMake()
+        {
+            // Arrange
+            int testId = GetTestMake().Id;
+            var testVehicleMake = GetTestMake();
+            var mockRepo = new Mock<IVehicleMakeServiceAPI>();
+            mockRepo.Setup(repo => repo.FindAsync(testId))
+                .ReturnsAsync(testVehicleMake);
+            var controller = new VehicleMakesController(mockRepo.Object, AutomapperTest.Mapper);
+
+            // Act
+            var result = await controller.GetVehicleMake(testId);
+
+            // Assert
+            var okObjectResult = Assert.IsType<OkObjectResult>(result);
+            var returnVehicleMake = Assert.IsType<VehicleMakeViewModel>(okObjectResult.Value);
+            mockRepo.Verify();
+            Assert.Equal(testVehicleMake.Name, returnVehicleMake.Name);
+            Assert.Equal(testVehicleMake.Id, returnVehicleMake.Id);
+            Assert.Equal(testVehicleMake.Abrv, returnVehicleMake.Abrv);
+        }
+
+        // PUT: api/VehicleMakes/5 
+        [Fact]
+        public async Task PutVehicleMake_ReturnsBadRequest_ForInvalidId()
+        {
+            // Arrange
+            int testId = 5; // testId != GetTestMakesViewModel().Id
+            var testVehicleMake = GetTestMakesViewModel();
+            var mockRepo = new Mock<IVehicleMakeServiceAPI>();
+            mockRepo.Setup(repo => repo.FindAsync(testId))
+                .ReturnsAsync(GetTestMake());
+            var controller = new VehicleMakesController(mockRepo.Object, AutomapperTest.Mapper);
+
+            // Act
+            var result = await controller.PutVehicleMake(testId, GetTestMakesViewModel());
+
+            // Assert
+            var badRequestResult = Assert.IsType<BadRequestResult>(result);
+            mockRepo.Verify();
+            Assert.Equal(400, badRequestResult.StatusCode);
+        }
+        [Fact]
+        public async Task PutVehicleMake_Update_ForValidId()
+        {
+            // Arrange
+            int testId = GetTestMakesViewModel().Id;
+            var testVehicleMake = GetTestMakesViewModel();
+            var mockRepo = new Mock<IVehicleMakeServiceAPI>();
+            mockRepo.Setup(repo => repo.FindAsync(testId))
+                .ReturnsAsync(GetTestMake());
+            var controller = new VehicleMakesController(mockRepo.Object, AutomapperTest.Mapper);
+
+            // Act
+            var result = await controller.PutVehicleMake(testId, GetTestMakesViewModel());
+
+            // Assert
+            var noContentResult = Assert.IsType<NoContentResult>(result);
+            mockRepo.Verify();
+            Assert.Equal(204, noContentResult.StatusCode);
+        }
+
+        // POST: api/VehicleMakes
+        [Fact]
+        public async Task PostVehicleMake_Create_ForModelIsValid()
+        {
+            // Arrange
+            int testId = GetTestMakesViewModel().Id;
+            var testVehicleMake = GetTestMakesViewModel();
+            var mockRepo = new Mock<IVehicleMakeServiceAPI>();
+            mockRepo.Setup(repo => repo.FindAsync(testId))
+                .ReturnsAsync(GetTestMake());
+            var controller = new VehicleMakesController(mockRepo.Object, AutomapperTest.Mapper);
+
+            // Act
+            var result = await controller.PostVehicleMake(GetTestMakesViewModel());
+
+            // Assert
+            var createdAtActionResult = Assert.IsType<CreatedAtActionResult>(result);
+            mockRepo.Verify();
+            Assert.Equal(201, createdAtActionResult.StatusCode);
+        }
+
+        // DELETE: api/VehicleMakes/5
+        [Fact]
+        public async Task DeleteVehicleMake_ReturnsHttpNotFound_ForIdNull()
+        {
+            // Arrange
+            int? testId = null;
+            var testVehicleMake = GetTestMake();
+            var mockRepo = new Mock<IVehicleMakeServiceAPI>();
+            mockRepo.Setup(repo => repo.FindAsync(testId))
+                .ReturnsAsync(GetTestMake());
+            var controller = new VehicleMakesController(mockRepo.Object, AutomapperTest.Mapper);
+
+            // Act
+            var result = await controller.DeleteVehicleMake(testId);
+
+            // Assert
+            var notFoundObjectResult = Assert.IsType<NotFoundObjectResult>(result);
+            mockRepo.Verify();
+            Assert.Equal(404, notFoundObjectResult.StatusCode);
+            Assert.Equal(testId, notFoundObjectResult.Value);
+        }
+        [Fact]
+        public async Task DeleteVehicleMake_ReturnsHttpNotFound_ForVehicleMakeNull()
+        {
+            // Arrange
+            int testId = GetTestMake().Id;
+            var testVehicleMake = GetTestMake();
+            var mockRepo = new Mock<IVehicleMakeServiceAPI>();
+            mockRepo.Setup(repo => repo.FindAsync(testId))
+                .ReturnsAsync((VehicleMake)null);
+            var controller = new VehicleMakesController(mockRepo.Object, AutomapperTest.Mapper);
+
+            // Act
+            var result = await controller.DeleteVehicleMake(testId);
+
+            // Assert
+            var notFoundObjectResult = Assert.IsType<NotFoundObjectResult>(result);
+            mockRepo.Verify();
+            Assert.Equal(404, notFoundObjectResult.StatusCode);
+            Assert.Equal(testId, notFoundObjectResult.Value);
+        }
+        [Fact]
+        public async Task DeleteVehicleMake_ReturnsVehicleMakeViewModel_ForDeleteVehicleMake()
+        {
+            // Arrange
+            int testId = GetTestMake().Id;
+            var testVehicleMake = GetTestMake();
+            var mockRepo = new Mock<IVehicleMakeServiceAPI>();
+            mockRepo.Setup(repo => repo.FindAsync(testId))
+                .ReturnsAsync(testVehicleMake);
+            var controller = new VehicleMakesController(mockRepo.Object, AutomapperTest.Mapper);
+
+            // Act
+            var result = await controller.DeleteVehicleMake(testId);
+
+            // Assert
+            var okObjectResult = Assert.IsType<OkObjectResult>(result);
+            mockRepo.Verify();
+            Assert.Equal(200, okObjectResult.StatusCode);
+        }
+
+        
+        
+
     }
 
 
