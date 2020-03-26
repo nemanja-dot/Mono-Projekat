@@ -9,6 +9,12 @@ namespace Project.DAL.Context
 	public class ApplicationContext : DbContext
 	{
 		public static readonly ILoggerFactory loggerFactory = LoggerFactory.Create(builder => { builder.AddConsole(); });
+		
+		public ApplicationContext()
+
+		{
+
+		}
 		public ApplicationContext(DbContextOptions options)
 				: base(options)
 		{

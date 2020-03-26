@@ -32,9 +32,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Project.Common", "Project.C
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Project.WebAPI.Tests", "Project.WebAPI.Tests\Project.WebAPI.Tests.csproj", "{181A310F-22F9-4218-AACD-D8F548261ED1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Project.Repository.Tests", "Project.Repository.Tests\Project.Repository.Tests.csproj", "{7380FB4F-0C47-4F87-BC7C-58715FA1647A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Project.Repository.Tests", "Project.Repository.Tests\Project.Repository.Tests.csproj", "{7380FB4F-0C47-4F87-BC7C-58715FA1647A}"
+	ProjectSection(ProjectDependencies) = postProject
+		{1CBC191D-7E67-4060-AA53-57C0242944B5} = {1CBC191D-7E67-4060-AA53-57C0242944B5}
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Project.Service.Tests", "Project.Service.Tests\Project.Service.Tests.csproj", "{67FE0886-B535-4118-AD17-BB5C4DA43F01}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Project.Service.Tests", "Project.Service.Tests\Project.Service.Tests.csproj", "{67FE0886-B535-4118-AD17-BB5C4DA43F01}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

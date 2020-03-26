@@ -14,4 +14,10 @@
     <PackageReference Include="coverlet.collector" Version="1.0.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Mono_Project_API\Mono_Project_API.csproj" />
+    <ProjectReference Include="..\Project.DAL\Project.DAL.csproj" />
+    <ProjectReference Include="..\Project.Repository\Project.Repository.csproj" />
+  </ItemGroup>
+
 </Project>
