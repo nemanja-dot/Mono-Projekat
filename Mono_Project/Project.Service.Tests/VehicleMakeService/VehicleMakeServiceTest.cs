@@ -16,6 +16,8 @@ using System.Text;
 using Xunit;
 using Project.Service.Tests.VehicleMakeService;
 using MockQueryable.Moq;
+using FluentAssertions;
+using System.Threading.Tasks;
 
 namespace Project.Service.Tests.VehicleMakeService
 {
@@ -23,47 +25,45 @@ namespace Project.Service.Tests.VehicleMakeService
     {
         // CreatedAsync
         [Fact]
-        public void CreatedAsync_TestCreating_ReturnTrue()
+        public async Task CreatedAsync_TestCreating_ReturnTrue()
         {
             // Arrange
             var testObject = new VehicleMake() { Id = 1, Name = "Test", Abrv = "T", VehicleModels = null };
             var testList = new List<VehicleMake>() { testObject };
 
             var UoW = new Mock<IUnitOfWork>(); //{ CallBase = true }
-            UoW.Setup(x => x.VehicleMake.Create(testObject));
+            UoW.Setup(x => x.VehicleMake.Create(testObject)).ReturnsAsync(true);
 
             // Act
             var serviceVehicleMake = new Services.API.VehicleMakeService(UoW.Object);
-            var result = serviceVehicleMake.CreateAsync(testObject);
+            var result = await serviceVehicleMake.CreateAsync(testObject);
 
             // Assert
-            UoW.Verify();
-            Assert.True(result.IsCompletedSuccessfully);
+            var okResult = result.Should().BeTrue();
         }
 
         // DeleteAsync
         [Fact]
-        public void DeleteAsync_TestDelete_ReturnTrue()
+        public async Task DeleteAsync_TestDelete_ReturnTrue()
         {
             // Arrange
             var testObject = new VehicleMake() { Id = 1, Name = "Test", Abrv = "T", VehicleModels = null };
             var testList = new List<VehicleMake>() { testObject };
 
             var UoW = new Mock<IUnitOfWork>(); //{ CallBase = true }
-            UoW.Setup(x => x.VehicleMake.Delete(testObject));
+            UoW.Setup(x => x.VehicleMake.Delete(testObject)).ReturnsAsync(true); ;
 
             // Act
             var serviceVehicleMake = new Services.API.VehicleMakeService(UoW.Object);
-            var result = serviceVehicleMake.DeleteAsync(testObject);
+            var result = await serviceVehicleMake.DeleteAsync(testObject);
 
             // Assert
-            UoW.Verify();
-            Assert.True(result.IsCompletedSuccessfully);
+            var okResult = result.Should().BeTrue();
         }
 
         // FindAsync
         [Fact]
-        public void FindAsync_TestFind_ReturnTrue()
+        public void FindAsync_TestFind_ReturnVehicleMake()
         {
             // Arrange
             var testObject = new VehicleMake() { Id = 1, Name = "Test", Abrv = "T", VehicleModels = null };
@@ -84,12 +84,11 @@ namespace Project.Service.Tests.VehicleMakeService
             var result = serviceVehicleMake.FindAsync(1);
 
             // Assert
-            UoW.Verify();
-            Assert.True(result.IsCompleted);
+            var okResult = result.IsCompleted.Should().BeTrue();
         }
 
         [Fact]
-        public void FindAsync_TestFind_ReturnFalse()
+        public void FindAsync_TestFind_ReturnVehicleMakeNull()
         {
             // Arrange
             var testObject = new VehicleMake() { Id = 1, Name = "Test", Abrv = "T", VehicleModels = null };
@@ -107,14 +106,12 @@ namespace Project.Service.Tests.VehicleMakeService
             var result = serviceVehicleMake.FindAsync(5); // testObject.Id != 5
 
             // Assert
-            UoW.Verify();
-            Assert.True(result.IsCompleted);
-            Assert.True(result.IsFaulted);
+            var okResult = result.IsCompleted.Should().BeTrue();
         }
 
         // GetAllAsync
         [Fact]
-        public void GetAsync_TestGet_ReturnAll()
+        public void GetAsync_TestGetAsync_ReturnAllVehicleMakes()
         {
             // Arrange
             var testObject = new VehicleMake() { Id = 1, Name = "Test", Abrv = "T", VehicleModels = null };
@@ -124,33 +121,27 @@ namespace Project.Service.Tests.VehicleMakeService
             var mockedDbContext = new Mock<ApplicationContext>();
             var mockDbSet = testList.AsQueryable().BuildMockDbSet();
 
-           // mockedDbContext.Setup(db => db.VehicleMake).Returns(mockDbSet.Object);
-
-
-
             var UoW = new Mock<IUnitOfWork>(); //{ CallBase = true }
-
             UoW.As<IQueryable<VehicleMake>>().Setup(x => x.Provider).Returns(testList.AsQueryable().Provider);
             UoW.As<IQueryable<VehicleMake>>().Setup(x => x.Expression).Returns(testList.AsQueryable().Expression);
             UoW.As<IQueryable<VehicleMake>>().Setup(x => x.ElementType).Returns(testList.AsQueryable().ElementType);
             UoW.As<IQueryable<VehicleMake>>().Setup(x => x.GetEnumerator()).Returns(testList.AsQueryable().GetEnumerator());
-
-
             UoW.Setup(x => x.VehicleMake.FindAll()).Returns(mockDbSet.Object);
-            
 
             // Act
             var serviceVehicleMake = new Services.API.VehicleMakeService(UoW.Object);
             var result = serviceVehicleMake.GetAllAsync(pagingDataTest);
 
             // Assert
-            UoW.Verify();
-            Assert.True(result.IsCompleted);
-            Assert.True(result.IsCompletedSuccessfully);
-            Assert.False(result.IsFaulted);
+            //UoW.Verify();
+            //Assert.True(result.IsCompleted);
+            //Assert.True(result.IsCompletedSuccessfully);
+            //Assert.False(result.IsFaulted);
+            var okResult = result.Should().Equals(testList);
+            result.IsCompletedSuccessfully.Should().BeTrue();
         }
         [Fact]
-        public void GetAsync_TestGet_ReturnAllPagingDataNull()
+        public void GetAsync_TestGetAsyncIfPagingDataNull_ReturnAllVehicleMakes()
         {
             // Arrange
             var testObject = new VehicleMake() { Id = 1, Name = "Test", Abrv = "T", VehicleModels = null };
@@ -160,34 +151,28 @@ namespace Project.Service.Tests.VehicleMakeService
             var mockedDbContext = new Mock<ApplicationContext>();
             var mockDbSet = testList.AsQueryable().BuildMockDbSet();
 
-            // mockedDbContext.Setup(db => db.VehicleMake).Returns(mockDbSet.Object);
-
-
-
             var UoW = new Mock<IUnitOfWork>(); //{ CallBase = true }
-
             UoW.As<IQueryable<VehicleMake>>().Setup(x => x.Provider).Returns(testList.AsQueryable().Provider);
             UoW.As<IQueryable<VehicleMake>>().Setup(x => x.Expression).Returns(testList.AsQueryable().Expression);
             UoW.As<IQueryable<VehicleMake>>().Setup(x => x.ElementType).Returns(testList.AsQueryable().ElementType);
             UoW.As<IQueryable<VehicleMake>>().Setup(x => x.GetEnumerator()).Returns(testList.AsQueryable().GetEnumerator());
-
-
             UoW.Setup(x => x.VehicleMake.FindAll()).Returns(mockDbSet.Object);
-
 
             // Act
             var serviceVehicleMake = new Services.API.VehicleMakeService(UoW.Object);
             var result = serviceVehicleMake.GetAllAsync();
 
             // Assert
-            UoW.Verify();
-            Assert.True(result.IsCompleted);
-            Assert.True(result.IsCompletedSuccessfully);
-            Assert.False(result.IsFaulted);
+            //UoW.Verify();
+            //Assert.True(result.IsCompleted);
+            //Assert.True(result.IsCompletedSuccessfully);
+            //Assert.False(result.IsFaulted);
+            var okResult = result.Should().Equals(testList);
+            result.IsCompletedSuccessfully.Should().BeTrue();
         }
 
         [Fact]
-        public void GetAsync_TestGet_ReturnAllSearchString()
+        public void GetAsync_TestGetForSearchString_ReturnAllSearchString()
         {
             // Arrange
             var testObject = new VehicleMake() { Id = 1, Name = "Test", Abrv = "T", VehicleModels = null };
@@ -197,9 +182,58 @@ namespace Project.Service.Tests.VehicleMakeService
             var mockedDbContext = new Mock<ApplicationContext>();
             var mockDbSet = testList.AsQueryable().BuildMockDbSet();
 
-            // mockedDbContext.Setup(db => db.VehicleMake).Returns(mockDbSet.Object);
+            var UoW = new Mock<IUnitOfWork>(); //{ CallBase = true }
 
+            UoW.As<IQueryable<VehicleMake>>().Setup(x => x.Provider).Returns(testList.AsQueryable().Provider);
+            UoW.As<IQueryable<VehicleMake>>().Setup(x => x.Expression).Returns(testList.AsQueryable().Expression);
+            UoW.As<IQueryable<VehicleMake>>().Setup(x => x.ElementType).Returns(testList.AsQueryable().ElementType);
+            UoW.As<IQueryable<VehicleMake>>().Setup(x => x.GetEnumerator()).Returns(testList.AsQueryable().GetEnumerator());
+            UoW.Setup(x => x.VehicleMake.FindAll()).Returns(mockDbSet.Object);
 
+            // Act
+            var serviceVehicleMake = new Services.API.VehicleMakeService(UoW.Object);
+            var result = serviceVehicleMake.GetAllAsync(pagingDataTest);
+
+            // Assert
+            //UoW.Verify();
+            //Assert.True(result.IsCompleted);
+            //Assert.True(result.IsCompletedSuccessfully);
+            //Assert.False(result.IsFaulted);
+            var okResult = result.Should().Equals(testList);
+            result.IsCompletedSuccessfully.Should().BeTrue();
+        }
+
+        // UpdateAsync
+        [Fact]
+        public async Task UpdetAsync_TestUpdate_ReturnTrue()
+        {
+            // Arrange
+            var testObject = new VehicleMake() { Id = 1, Name = "Test", Abrv = "T", VehicleModels = null };
+            var testList = new List<VehicleMake>() { testObject };
+
+            var UoW = new Mock<IUnitOfWork>(); //{ CallBase = true }
+            UoW.Setup(x => x.VehicleMake.Update(testObject)).ReturnsAsync(true); 
+
+            // Act
+            var serviceVehicleMake = new Services.API.VehicleMakeService(UoW.Object);
+            var result = await serviceVehicleMake.UpdateAsync(testObject);
+
+            // Assert
+            var okResult = result.Should().BeTrue();
+        }
+
+        //VehicleMakeExists
+        [Fact]
+        public void VehicleMakeExists_TestExists_ReturnVehicleMake()
+        {
+            // Arrange
+            var testObject = new VehicleMake() { Id = 1, Name = "Test", Abrv = "T", VehicleModels = null };
+            var testList = new List<VehicleMake>() { testObject };
+
+            //var UoW = new Mock<IUnitOfWork>(); //{ CallBase = true }
+            //UoW.Setup(x => x.VehicleMake.FindByCondition(m => m.Id == m.Id));
+            var mockedDbContext = new Mock<ApplicationContext>();
+            var mockDbSet = testList.AsQueryable().BuildMockDbSet();
 
             var UoW = new Mock<IUnitOfWork>(); //{ CallBase = true }
 
@@ -207,58 +241,12 @@ namespace Project.Service.Tests.VehicleMakeService
             UoW.As<IQueryable<VehicleMake>>().Setup(x => x.Expression).Returns(testList.AsQueryable().Expression);
             UoW.As<IQueryable<VehicleMake>>().Setup(x => x.ElementType).Returns(testList.AsQueryable().ElementType);
             UoW.As<IQueryable<VehicleMake>>().Setup(x => x.GetEnumerator()).Returns(testList.AsQueryable().GetEnumerator());
-
-
-            UoW.Setup(x => x.VehicleMake.FindAll()).Returns(mockDbSet.Object);
+            UoW.Setup(x => x.VehicleMake.FindByCondition(m => m.Id == testObject.Id)).Returns(mockDbSet.Object);
 
 
             // Act
             var serviceVehicleMake = new Services.API.VehicleMakeService(UoW.Object);
-            var result = serviceVehicleMake.GetAllAsync(pagingDataTest);
-
-            // Assert
-            UoW.Verify();
-            Assert.True(result.IsCompleted);
-            Assert.True(result.IsCompletedSuccessfully);
-            Assert.False(result.IsFaulted);
-        }
-
-        // UpdateAsync
-        [Fact]
-        public void UpdetAsync_TestUpdate_ReturnTrue()
-        {
-            // Arrange
-            var testObject = new VehicleMake() { Id = 1, Name = "Test", Abrv = "T", VehicleModels = null };
-            var testList = new List<VehicleMake>() { testObject };
-
-            var UoW = new Mock<IUnitOfWork>(); //{ CallBase = true }
-            UoW.Setup(x => x.VehicleMake.Update(testObject));
-
-            // Act
-            var serviceVehicleMake = new Services.API.VehicleMakeService(UoW.Object);
-            var result = serviceVehicleMake.UpdateAsync(testObject); 
-
-            // Assert
-            UoW.Verify();
-            Assert.True(result.IsCompleted);
-            Assert.True(result.IsCompletedSuccessfully);
-            Assert.False(result.IsFaulted);
-        }
-
-        //VehicleMakeExists
-        [Fact]
-        public void VehicleMakeExists_TestFind_ReturnTrue()
-        {
-            // Arrange
-            var testObject = new VehicleMake() { Id = 1, Name = "Test", Abrv = "T", VehicleModels = null };
-            var testList = new List<VehicleMake>() { testObject };
-
-            var UoW = new Mock<IUnitOfWork>(); //{ CallBase = true }
-            UoW.Setup(x => x.VehicleMake.FindByCondition(m => m.Id == m.Id));
-
-            // Act
-            var serviceVehicleMake = new Services.API.VehicleMakeService(UoW.Object);
-            var result = serviceVehicleMake.VehicleMakeExists(12); // testObject.Id != 5
+            var result = serviceVehicleMake.VehicleMakeExists(testObject.Id); 
 
             // Assert
             UoW.Verify();
