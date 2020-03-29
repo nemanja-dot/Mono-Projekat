@@ -108,8 +108,6 @@ namespace Project.Repository.Tests.VehicleModelRepository
             var testObject = new VehicleModel() { Id = 1, Name = "Test", Abrv = "T" };
             var testList = new List<VehicleModel>() { testObject };
 
-            // Act
-
             var dbSetMock = new Mock<DbSet<VehicleModel>>();
             dbSetMock.As<IQueryable<VehicleModel>>().Setup(x => x.Provider).Returns(testList.AsQueryable().Provider);
             dbSetMock.As<IQueryable<VehicleModel>>().Setup(x => x.Expression).Returns(testList.AsQueryable().Expression);
@@ -128,6 +126,7 @@ namespace Project.Repository.Tests.VehicleModelRepository
             //Assert
             // Assert.True(result.IsCompletedSuccessfully);
             var okResult = result.Should().NotBeNull();
+            result.IsCompletedSuccessfully.Should().BeTrue();
         }
 
         //Update
@@ -159,6 +158,7 @@ namespace Project.Repository.Tests.VehicleModelRepository
             //Assert
             //Assert.True(result.IsCompletedSuccessfully);
             var okResult = result.Should().NotBeNull();
+            result.IsCompletedSuccessfully.Should().BeTrue();
         }
 
         // Delete
@@ -170,8 +170,7 @@ namespace Project.Repository.Tests.VehicleModelRepository
             var testObject = new VehicleModel() { Id = 1, Name = "Test", Abrv = "T" };
             var testList = new List<VehicleModel>() { testObject };
 
-            // Act
-
+            
             var dbSetMock = new Mock<DbSet<VehicleModel>>();
             dbSetMock.As<IQueryable<VehicleModel>>().Setup(x => x.Provider).Returns(testList.AsQueryable().Provider);
             dbSetMock.As<IQueryable<VehicleModel>>().Setup(x => x.Expression).Returns(testList.AsQueryable().Expression);
@@ -190,6 +189,7 @@ namespace Project.Repository.Tests.VehicleModelRepository
             //Assert
             //Assert.True(result.IsCompletedSuccessfully);
             var okResult = result.Should().NotBeNull();
+            result.IsCompletedSuccessfully.Should().BeTrue();
         }
     }
 }

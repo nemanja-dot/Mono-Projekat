@@ -17,20 +17,7 @@ namespace Project.Repository.Tests.VehicleMakeRepository
 {
     public class VehicleMakeRepositoryTest
     {
-        /*
-        private VehicleMake GetTestMake()
-        {
-            var vehicleMake = new VehicleMake()
-            {
-                Id = 2,
-                Name = "Test",
-                Abrv = "T",
-                VehicleModels = null
-            };
-            return vehicleMake;
-        }
-        */
-
+        
         // FindAll
         [Fact]
         public void FindAll_FindAllVehicles_ReturnTestList()
@@ -126,8 +113,6 @@ namespace Project.Repository.Tests.VehicleMakeRepository
             var testObject = new VehicleMake() { Id = 1, Name = "Test", Abrv = "T", VehicleModels = null };
             var testList = new List<VehicleMake>() { testObject };
 
-            // Act
-            
             var dbSetMock = new Mock<DbSet<VehicleMake>>();
             dbSetMock.As<IQueryable<VehicleMake>>().Setup(x => x.Provider).Returns(testList.AsQueryable().Provider);
             dbSetMock.As<IQueryable<VehicleMake>>().Setup(x => x.Expression).Returns(testList.AsQueryable().Expression);
@@ -146,6 +131,7 @@ namespace Project.Repository.Tests.VehicleMakeRepository
             //Assert
             // Assert.True(result.IsCompletedSuccessfully);
             var okResult = result.Should().NotBeNull();
+            result.IsCompletedSuccessfully.Should().BeTrue();
         }
 
         //Update
@@ -177,6 +163,7 @@ namespace Project.Repository.Tests.VehicleMakeRepository
             //Assert
             //Assert.True(result.IsCompletedSuccessfully);
             var okResult = result.Should().NotBeNull();
+            result.IsCompletedSuccessfully.Should().BeTrue();
         }
 
 
@@ -190,7 +177,7 @@ namespace Project.Repository.Tests.VehicleMakeRepository
             var testObject = new VehicleMake() { Id = 1, Name = "Test", Abrv = "T", VehicleModels = null };
             var testList = new List<VehicleMake>() { testObject };
 
-            // Act
+            
             
             var dbSetMock = new Mock<DbSet<VehicleMake>>();
             dbSetMock.As<IQueryable<VehicleMake>>().Setup(x => x.Provider).Returns(testList.AsQueryable().Provider);
@@ -210,6 +197,7 @@ namespace Project.Repository.Tests.VehicleMakeRepository
             //Assert
             //Assert.True(result.IsCompletedSuccessfully);
             var okResult = result.Should().NotBeNull();
+            result.IsCompletedSuccessfully.Should().BeTrue();
         }
 
         
