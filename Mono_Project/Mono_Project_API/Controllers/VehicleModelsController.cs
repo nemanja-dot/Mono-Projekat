@@ -41,13 +41,13 @@ namespace Mono_Project_API.Controllers
 
         // GET: api/VehicleModels/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<VehicleModelViewModel>> GetVehicleModel(int id)
+        public async Task<ActionResult> GetVehicleModel(int id)
         {
             var vehicleModel = await _vehicleModelServiceAPI.FindAsync(id);
 
             if (vehicleModel == null)
             {
-                return NotFound();
+                return NotFound(id);
             }
 
             var vehicleModelViewModel = _mapper.Map<VehicleModelViewModel>(vehicleModel);
@@ -59,9 +59,9 @@ namespace Mono_Project_API.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutVehicleModel(int id, VehicleModelViewModel vehicleModel)
+        public async Task<IActionResult> PutVehicleModel(int id, VehicleModelViewModel vehicleModelViewModel)
         {
-            var vehicleModelViewModel = _mapper.Map<VehicleModel>(vehicleModel);
+            var vehicleModel = _mapper.Map<VehicleModel>(vehicleModelViewModel);
 
             if (id != vehicleModel.Id)
             {
@@ -72,18 +72,18 @@ namespace Mono_Project_API.Controllers
             {
                 try
                 {
-                    await _vehicleModelServiceAPI.UpdateAsync(vehicleModelViewModel);
+                    await _vehicleModelServiceAPI.UpdateAsync(vehicleModel);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    /*if (!_vehicleModelServiceAPI.VehicleModelExists(vehicleModel.Id))
+                    if (await _vehicleModelServiceAPI.VehicleModelExists(vehicleModel.Id))
                     {
                         return NotFound();
                     }
                     else
                     {
                         throw;
-                    }*/
+                    }
                 }
             }
 
@@ -94,36 +94,41 @@ namespace Mono_Project_API.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPost]
-        public async Task<ActionResult<VehicleModel>> Create(VehicleModelViewModel vehicleModel)
+        public async Task<ActionResult> Create(VehicleModelViewModel vehicleModelViewModel)
         {
-            var vehicleModelViewModel = _mapper.Map<VehicleModel>(vehicleModel);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
 
-            await _vehicleModelServiceAPI.CreateAsync(vehicleModelViewModel);
+            var vehicleModel = _mapper.Map<VehicleModel>(vehicleModelViewModel);
+
+            await _vehicleModelServiceAPI.CreateAsync(vehicleModel);
 
             return CreatedAtAction("GetVehicleModel", new { id = vehicleModel.Id }, vehicleModel);
         }
 
         // DELETE: api/VehicleModels/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<VehicleModel>> DeleteVehicleModel(int? id)
+        public async Task<ActionResult> DeleteVehicleModel(int? id)
         {
             
             if (id == null)
             {
-                return NotFound();
+                return NotFound(id);
             }
-            var vehicleModel = await _vehicleModelServiceAPI.FindAsync(id);
+            var vehicleModelViewModel = await _vehicleModelServiceAPI.FindAsync(id);
 
-            if (vehicleModel == null)
+            if (vehicleModelViewModel == null)
             {
-                return NotFound();
+                return NotFound(id);
             }
 
-            var vehicleModelViewModel = _mapper.Map<VehicleModel>(vehicleModel);
+            var vehicleModel = _mapper.Map<VehicleModel>(vehicleModelViewModel);
 
-            await _vehicleModelServiceAPI.DeleteAsync(vehicleModelViewModel);
+            var deleteVehicleMake = await _vehicleModelServiceAPI.DeleteAsync(vehicleModel);
 
-            return Ok();
+            return Ok(deleteVehicleMake);
         }
 
        
