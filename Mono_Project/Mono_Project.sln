@@ -39,6 +39,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Project.Repository.Tests", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Project.Service.Tests", "Project.Service.Tests\Project.Service.Tests.csproj", "{67FE0886-B535-4118-AD17-BB5C4DA43F01}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mono_Project_React", "Mono_Project_React\Mono_Project_React.csproj", "{ED42656E-28F8-4F85-BC63-7DA196412FFE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -93,6 +95,10 @@ Global
 		{67FE0886-B535-4118-AD17-BB5C4DA43F01}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{67FE0886-B535-4118-AD17-BB5C4DA43F01}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{67FE0886-B535-4118-AD17-BB5C4DA43F01}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ED42656E-28F8-4F85-BC63-7DA196412FFE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED42656E-28F8-4F85-BC63-7DA196412FFE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ED42656E-28F8-4F85-BC63-7DA196412FFE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ED42656E-28F8-4F85-BC63-7DA196412FFE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
