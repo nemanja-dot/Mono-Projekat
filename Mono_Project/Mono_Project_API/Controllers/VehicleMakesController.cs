@@ -32,12 +32,13 @@ namespace Mono_Project_API.Controllers
         [Route("GetVehicleMake")]
         public async Task<ActionResult> GetVehicleMake()
         {
+            var pagingData = new PagingData();
 
-            //pagingData.Page ??= 0;
-            //pagingData.Count ??= 10;
+            pagingData.Page ??= 0;
+            pagingData.Count ??= 10;
 
-            var allVehicleMakes = await _vehicleMakeService.GetAllAsync();
-            var vehicleMakeViewModel = _mapper.Map<List<VehicleMakeViewModel>>(allVehicleMakes);
+            var allVehicleMakes = await _vehicleMakeService.GetAllAsync(pagingData);
+            var vehicleMakeViewModel = _mapper.Map<PagingDataListViewModel<VehicleMakeViewModel>>(allVehicleMakes);
 
             // vehicleMakeViewModel.Items.ForEach(m => 
                // m.ModelCount = allVehicleMakes.First(d => d.Id == m.Id).VehicleModels.Count);
