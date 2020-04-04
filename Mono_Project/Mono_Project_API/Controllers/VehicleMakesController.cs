@@ -29,14 +29,14 @@ namespace Mono_Project_API.Controllers
 
         // GET: api/VehicleMakes
         [HttpGet]
-        public async Task<ActionResult> GetVehicleMake(PagingData pagingData)
+        public async Task<ActionResult> GetVehicleMake()
         {
 
-            pagingData.Page ??= 0;
-            pagingData.Count ??= 10;
+            //pagingData.Page ??= 0;
+            //pagingData.Count ??= 10;
 
-            var allVehicleMakes = await _vehicleMakeService.GetAllAsync(pagingData);
-            var vehicleMakeViewModel = _mapper.Map<PagingDataListViewModel<VehicleMakeViewModel>>(allVehicleMakes);
+            var allVehicleMakes = await _vehicleMakeService.GetAllAsync();
+            var vehicleMakeViewModel = _mapper.Map<List<VehicleMakeViewModel>>(allVehicleMakes);
 
             // vehicleMakeViewModel.Items.ForEach(m => 
                // m.ModelCount = allVehicleMakes.First(d => d.Id == m.Id).VehicleModels.Count);

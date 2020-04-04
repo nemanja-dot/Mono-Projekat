@@ -85,6 +85,7 @@ namespace Project.WebAPI.Tests.ControllersAPI
 
 
         // GET: api/VehicleMakes
+        /*
         [Fact]
         public async Task GetVehicleMake_GetAllVehicleMakes_ReturnOkObjectResult()
         {
@@ -104,7 +105,7 @@ namespace Project.WebAPI.Tests.ControllersAPI
             // Assert.IsType<OkObjectResult>(result);
             var okResult = result.Should().BeOfType<OkObjectResult>().Subject;
         }
-
+        */
         // GET: api/VehicleMakes/5
         [Fact]
         public async Task GetVehicleMake_GetVehicleMakeNull_ReturnNotFound()
