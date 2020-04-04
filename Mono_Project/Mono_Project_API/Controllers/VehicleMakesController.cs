@@ -29,6 +29,7 @@ namespace Mono_Project_API.Controllers
 
         // GET: api/VehicleMakes
         [HttpGet]
+        [Route("GetVehicleMake")]
         public async Task<ActionResult> GetVehicleMake()
         {
 
@@ -45,7 +46,8 @@ namespace Mono_Project_API.Controllers
         }
 
         // GET: api/VehicleMakes/5
-        [HttpGet("{id}")]
+        [HttpGet]
+        [Route("GetVehicleMakeId/{id}")]
         public async Task<ActionResult> GetVehicleMake(int id)
         {
             var vehicleMake = await _vehicleMakeService.FindAsync(id);
@@ -64,15 +66,18 @@ namespace Mono_Project_API.Controllers
         // PUT: api/VehicleMakes/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutVehicleMake(int id, VehicleMakeViewModel vehicleMakeViewModel)
+        [HttpPut]
+        [Route("UpdateVehicleMakeId")]
+        public async Task<IActionResult> PutVehicleMake( VehicleMakeViewModel vehicleMakeViewModel)
         {
            var vehicleMake = _mapper.Map<VehicleMake>(vehicleMakeViewModel);
 
+            /*
             if (id != vehicleMake.Id)
             {
                 return BadRequest();
             }
+            */
 
             if (ModelState.IsValid)
             {
@@ -100,6 +105,7 @@ namespace Mono_Project_API.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPost]
+        [Route("CreateVehicleMake")]
         public async Task<ActionResult> PostVehicleMake(VehicleMakeViewModel vehicleMakeViewModel)
         {
             if (!ModelState.IsValid)
@@ -116,7 +122,8 @@ namespace Mono_Project_API.Controllers
         }
         
         // DELETE: api/VehicleMakes/5
-        [HttpDelete("{id}")]
+        [HttpDelete]
+        [Route("DeleteVehicleMakeId/{id}")]
         public async Task<ActionResult> DeleteVehicleMake(int? id)
         {
             if (id == null)

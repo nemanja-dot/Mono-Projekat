@@ -164,7 +164,7 @@ namespace Project.WebAPI.Tests.ControllersAPI
             var controller = new VehicleMakesController(mockService.Object, AutomapperTest.Mapper);
 
             // Act
-            var result = await controller.PutVehicleMake(testId, testVehicleMake);
+            var result = await controller.PutVehicleMake(testVehicleMake);
 
             // Assert
             //var badRequestResult = Assert.IsType<BadRequestResult>(result);
@@ -183,7 +183,7 @@ namespace Project.WebAPI.Tests.ControllersAPI
             var controller = new VehicleMakesController(mockService.Object, AutomapperTest.Mapper);
 
             // Act
-            var result = await controller.PutVehicleMake(testId, testVehicleMake);
+            var result = await controller.PutVehicleMake(testVehicleMake);
 
             // Assert
             //var noContentResult = Assert.IsType<NoContentResult>(result);
