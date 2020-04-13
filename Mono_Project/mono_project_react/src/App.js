@@ -2,10 +2,11 @@ import React, { Component } from "react";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { Container } from "semantic-ui-react";
 import { Row, Form, Col, Table, Button } from "react-bootstrap";
+import logo from "./logo.svg";
+import "./App.css";
 import vehicleMakeList from "./Components/vehicleMakeList";
 import vehicleMakeCreate from "./Components/vehicleMakeCreate";
 import vehicleMakeEdit from "./Components/vehicleMakeEdit";
-import "./App.css";
 
 class App extends Component {
   render() {

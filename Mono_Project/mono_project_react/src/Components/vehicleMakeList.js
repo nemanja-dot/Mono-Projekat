@@ -3,8 +3,6 @@ import { Container, Table, Button, Row, Form, Col } from "react-bootstrap";
 import { observer, inject } from "mobx-react";
 import Nav from "react-bootstrap/Nav";
 import { NavLink, Route } from "react-router-dom";
-import vehicleMakeCreate from "./Components/vehicleMakeCreate";
-import vehicleMakeEdit from "./Components/vehicleMakeEdit";
 
 class vehicleMakeList extends React.Component {
   componentDidMount() {
@@ -124,7 +122,7 @@ class vehicleMakeList extends React.Component {
                         activeClassName="active"
                         exact
                         onClick={(event) => this.editUser(vehicleMake)}
-                        to="/Components/vehicleMakeEdit"
+                        to="./Components/vehicleMakeEdit"
                       >
                         Edit
                       </NavLink>
@@ -135,7 +133,7 @@ class vehicleMakeList extends React.Component {
                         className="badge badge-info"
                         activeClassName="active"
                         exact
-                        to="/Components/vehicleMakeCreate"
+                        to="./Components/vehicleMakeCreate"
                       >
                         Add Vehicle Make
                       </NavLink>
@@ -145,21 +143,21 @@ class vehicleMakeList extends React.Component {
                         size="sm"
                         variant="badge badge-danger mr-2"
                         onClick={(event) =>
-                          this.deleteUser(event, vehicleMake.id)
+                          this.deleteVehicleMake(event, vehicleMake.id)
                         }
                       >
                         Delete
                       </Button>
                     </td>
-                    <td>
-                      <Button
-                        size="sm"
-                        variant="badge badge-danger mr-2"
-                        onClick={(event) => this.editUser(vehicleMake.id)}
-                      >
-                        EditUser
-                      </Button>
-                    </td>
+                    {/* <td>
+                        <Button
+                          size="sm"
+                          variant="badge badge-danger mr-2"
+                          onClick={(event) => this.editUser(vehicleMake.id)}
+                        >
+                          EditUser
+                        </Button>
+                      </td> */}
                   </tr>
                 ))}
               </tbody>

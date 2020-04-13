@@ -2,7 +2,6 @@ import * as React from "react";
 import { Table, Button } from "react-bootstrap";
 import { observer, inject } from "mobx-react";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import vehicleMakeStore from "./Common/vehicleMakeStore";
 
 class vehicleMakeEdit extends React.Component {
   constructor(props) {
@@ -98,6 +97,4 @@ class vehicleMakeEdit extends React.Component {
   }
 }
 
-export default inject(
-  "c:/Users/Nemanja/Documents/Projekti/Mono-Projekt/Mono_Project/mono-react/src/Common/vehicleMakeStore"
-)(observer(vehicleMakeEdit));
+export default inject("vehicleMakeStore")(observer(vehicleMakeEdit));

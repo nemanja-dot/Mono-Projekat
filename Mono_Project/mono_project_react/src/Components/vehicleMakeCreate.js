@@ -6,7 +6,7 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 class vehicleMakeCreate extends React.Component {
   createVehicleMake = (e) => {
     e.preventDefault();
-    this.props.vehicleMakeService.createVehicleMakeAsync({
+    this.props.vehicleMakeStore.createVehicleMakeAsync({
       id: this.refs.id.value,
       name: this.refs.name.value,
       abrv: this.refs.abrv.value,
@@ -37,4 +37,4 @@ class vehicleMakeCreate extends React.Component {
   }
 }
 
-export default inject("./Common/vehicleMakeStore")(observer(vehicleMakeCreate));
+export default inject("vehicleMakeStore")(observer(vehicleMakeCreate));

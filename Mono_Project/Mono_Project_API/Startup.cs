@@ -46,7 +46,7 @@ namespace Mono_Project_API
                 options.AddPolicy(MyAllowSpecificOrigins,
                 builder =>
                 {
-                    builder.WithOrigins("http://localhost:3000", "https://localhost")
+                    builder.WithOrigins("http://localhost:3001", "https://localhost")
                     .AllowAnyHeader()
                     .AllowAnyMethod();
                 });

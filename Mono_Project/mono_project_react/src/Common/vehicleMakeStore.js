@@ -1,5 +1,5 @@
 import { observable, runInAction, decorate } from "mobx";
-import vehicleMakeService from "c:/Users/Nemanja/Documents/Projekti/Mono-Projekt/Mono_Project/mono-react/src/Common/vehicleMakeService";
+import vehicleMakeService from "./vehicleMakeService";
 
 class vehicleMakeStore {
   constructor() {
@@ -92,7 +92,7 @@ class vehicleMakeStore {
         runInAction(() => {
           this.countryData.pageNumber = 0;
           this.perPage = 5;
-          this.getCountriesAsync();
+          this.getAllVehicleMakesAsync();
           this.status = "success";
         });
       }
