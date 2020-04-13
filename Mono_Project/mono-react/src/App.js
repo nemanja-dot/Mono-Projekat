@@ -1,38 +1,39 @@
-import React, { useEffect, useState } from 'react';
-import logo from './logo.svg';
-import './App.css';
-import axios from 'axios';
+import React, { Component } from "react";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { Container } from "semantic-ui-react";
+import { Row, Form, Col, Table, Button } from "react-bootstrap";
+import vehicleMakeList from "./Components/vehicleMakeList";
+import vehicleMakeCreate from "./Components/vehicleMakeCreate";
+import vehicleMakeEdit from "./Components/vehicleMakeEdit";
+import "./App.css";
 
-function App() {
-  const [vehicleMakes, setVehicleMakes] = useState([]);
-  
-  useEffect(() => {
-    axios.get('https://localhost:44339/api/VehicleMakes/GetVehicleMake').then(res => {
-      console.log(res.data);  
-      setVehicleMakes(res.data);
-    });
-  }, [setVehicleMakes]);
-  console.log(vehicleMakes);
-
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Izmeni <code>src/App.js</code> i spremi.
-        {vehicleMakes && vehicleMakes.map(makes => <p>{makes.name}</p>)}
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+  render() {
+    return (
+      <Router>
+        <div>
+          <nav className="navbar navbar-expand navbar-dark bg-dark">
+            <a className="navbar-brand">Mono React</a>
+            <div className="navbar-nav mr-auto"></div>
+          </nav>
+          <div className="container mt-3">
+            <Switch>
+              <Route exact path="/" component={vehicleMakeList} />
+              <Route
+                path="/Components/vehicleMakeCreate"
+                component={vehicleMakeCreate}
+              />
+              <Route
+                path="/Components/vehicleMakeEdit"
+                component={vehicleMakeEdit}
+              />
+              {/* <Route path="/Common/vehicleMakeDelete" component={vehicleMakeDelete} /> */}
+            </Switch>
+          </div>
+        </div>
+      </Router>
+    );
+  }
 }
 
 export default App;

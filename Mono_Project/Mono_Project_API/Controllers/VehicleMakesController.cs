@@ -30,9 +30,9 @@ namespace Mono_Project_API.Controllers
         // GET: api/VehicleMakes
         [HttpGet]
         [Route("GetVehicleMake")]
-        public async Task<ActionResult> GetVehicleMake()
+        public async Task<ActionResult> GetAllVehicleMake([FromQuery] PagingData pagingData)
         {
-            var pagingData = new PagingData();
+            // var pagingData = new PagingData();
 
             pagingData.Page ??= 0;
             pagingData.Count ??= 10;
