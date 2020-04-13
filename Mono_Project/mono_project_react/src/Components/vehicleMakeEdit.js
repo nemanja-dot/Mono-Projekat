@@ -1,30 +1,19 @@
 import * as React from "react";
-import { Table, Button } from "react-bootstrap";
 import { observer, inject } from "mobx-react";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 class vehicleMakeEdit extends React.Component {
   constructor(props) {
     super(props);
-    this.state = this.props.vehicleMakeStore.make;
+    this.state = this.props.vehicleMakeStore.editData;
     this.onChange = this.onChange.bind(this);
   }
 
-  // componentDidMount() {
-  //   if (this.props.CountryStore.id == "undefinided") {
-  //     this.props.CountryStore.id = 26;
-  //   }
-  //   // if ((this.props.CountryStore.countryData.pageNumber = "undefinided")) {
-  //   //   this.props.CountryStore.countryData.pageNumber = 0;
-  //   // }
-  //   this.props.CountryStore.getIdCountriesAsync();
-  // }
   componentDidMount() {
-    if (this.props.vehicleMakeStore.make) {
+    if (this.props.vehicleMakeStore.editData) {
       this.props.vehicleMakeStore.getVehicleMakeAsync(
-        this.props.vehicleMakeStore.make.id
+        this.props.vehicleMakeStore.editData.id
       );
-      this.setState(this.props.vehicleMakeStore.make);
+      this.setState(this.props.vehicleMakeStore.editData);
     }
   }
 
@@ -35,9 +24,10 @@ class vehicleMakeEdit extends React.Component {
       name: this.refs.name.value,
       abrv: this.refs.abrv.value,
     });
-    // this.refs.id.value = null;
-    // this.refs.name.value = null;
-    // this.refs.abrv.value = null;
+
+    this.refs.id.value = null;
+    this.refs.name.value = null;
+    this.refs.abrv.value = null;
   };
 
   onChange(event) {
@@ -61,13 +51,11 @@ class vehicleMakeEdit extends React.Component {
                 id="id"
                 type="text"
                 placeholder="id"
-                //onChange={this.onChange}
               />
             </div>
             <div className="form-group">
               <input
                 ref="name"
-                // id="vehicleMakeName"
                 type="text"
                 name="name"
                 placeholder="Name"
@@ -81,8 +69,6 @@ class vehicleMakeEdit extends React.Component {
                 type="text"
                 name="abrv"
                 value={this.state.abrv}
-                // id="abrv"
-                // type="text"
                 placeholder="Abrv"
                 onChange={this.onChange}
               />

@@ -1,8 +1,10 @@
 import React, { Component } from "react";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import { Container } from "semantic-ui-react";
-import { Row, Form, Col, Table, Button } from "react-bootstrap";
-import logo from "./logo.svg";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  NavLink,
+} from "react-router-dom";
 import "./App.css";
 import vehicleMakeList from "./Components/vehicleMakeList";
 import vehicleMakeCreate from "./Components/vehicleMakeCreate";
@@ -14,7 +16,18 @@ class App extends Component {
       <Router>
         <div>
           <nav className="navbar navbar-expand navbar-dark bg-dark">
-            <a className="navbar-brand">Mono React</a>
+            <a href="/" className="navbar-brand">
+              Mono React
+            </a>
+            <NavLink
+              variant="info"
+              className="item"
+              activeClassName="active"
+              exact
+              to="/"
+            >
+              Vehicle Make List
+            </NavLink>
             <div className="navbar-nav mr-auto"></div>
           </nav>
           <div className="container mt-3">

@@ -6,7 +6,7 @@ class vehicleMakeService {
       method: "GET",
     };
     const request = new Request(
-      webApiUrl + "/GetVehicleMake" + "?" + urlParams,
+      webApiUrl + "/GetVehicleMake?" + urlParams,
       options
     );
     const response = await fetch(request);

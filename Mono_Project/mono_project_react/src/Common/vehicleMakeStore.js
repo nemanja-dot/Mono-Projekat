@@ -10,7 +10,7 @@ class vehicleMakeStore {
   };
   vehicleMakes = [];
 
-  make = [];
+  editData = [];
   Pages;
   pagesIndex;
   status = "initial";
@@ -46,10 +46,10 @@ class vehicleMakeStore {
       const dataId = await this.vehicleMakeService.get(id);
       runInAction(() => {
         console.log(dataId);
-        this.vehicleMakeId = dataId.id;
-        this.vehicleMakeName = dataId.name;
-        this.vehicleMakeAbrv = dataId.abrv;
-        this.make = dataId;
+        // this.vehicleMakeId = dataId.id;
+        // this.vehicleMakeName = dataId.name;
+        // this.vehicleMakeAbrv = dataId.abrv;
+        this.editData = dataId;
       });
     } catch (error) {
       runInAction(() => {
@@ -107,19 +107,19 @@ class vehicleMakeStore {
 decorate(vehicleMakeStore, {
   countryData: observable,
   vehicleMakes: observable,
-  vehicleMakeId: observable,
-  vehicleMakeName: observable,
-  vehicleMakeAbrv: observable,
+  //   vehicleMakeId: observable,
+  //   vehicleMakeName: observable,
+  //   vehicleMakeAbrv: observable,
   Pages: observable,
   pagesIndex: observable,
+  hasNextPage: observable,
+  hasPreviousPage: observable,
   SearchString: observable,
   status: observable,
   urlParams: observable,
   urlParamsId: observable,
   perPage: observable,
-  hasNextPage: observable,
-  hasPreviousPage: observable,
-  make: observable,
+  editData: observable,
 });
 
 export default new vehicleMakeStore();
