@@ -7,10 +7,14 @@ import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import { Provider } from "mobx-react";
 import vehicleMakeStore from "./Common/vehicleMakeStore";
+import vehicleModelStore from "./Common/vehicleModelStore";
 
 ReactDOM.render(
   <BrowserRouter>
-    <Provider vehicleMakeStore={vehicleMakeStore}>
+    <Provider
+      vehicleMakeStore={vehicleMakeStore}
+      vehicleModelStore={vehicleModelStore}
+    >
       <App />
     </Provider>
   </BrowserRouter>,
