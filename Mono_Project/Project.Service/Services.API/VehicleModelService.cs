@@ -53,11 +53,11 @@ namespace Project.Service.Services.API
 
             switch (pagingData.SortOrder)
             {
-                case "name_desc":
-                    allVehicleModel = allVehicleModel.OrderByDescending(s => s.Name);
+                case "isAscending":
+                    allVehicleModel = allVehicleModel.OrderBy(s => s.Name);
                     break;
                 default:
-                    allVehicleModel = allVehicleModel.OrderBy(s => s.Name);
+                    allVehicleModel = allVehicleModel.OrderByDescending(s => s.Name);
                     break;
             }
 

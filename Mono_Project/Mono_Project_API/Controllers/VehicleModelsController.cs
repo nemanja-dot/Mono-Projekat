@@ -28,7 +28,8 @@ namespace Mono_Project_API.Controllers
 
         // GET: api/VehicleModels
         [HttpGet]
-        public async Task<ActionResult> GetVehicleModel(PagingData pagingData)
+        [Route("GetVehicleModel")]
+        public async Task<ActionResult> GetVehicleModel([FromQuery] PagingData pagingData)
         {
             pagingData.Page ??= 0;
             pagingData.Count ??= 10;
@@ -40,7 +41,8 @@ namespace Mono_Project_API.Controllers
         }
 
         // GET: api/VehicleModels/5
-        [HttpGet("{id}")]
+        [HttpGet]
+        [Route("GetVehicleModelId/{id}")]
         public async Task<ActionResult> GetVehicleModel(int id)
         {
             var vehicleModel = await _vehicleModelServiceAPI.FindAsync(id);
@@ -58,15 +60,18 @@ namespace Mono_Project_API.Controllers
         // PUT: api/VehicleModels/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutVehicleModel(int id, VehicleModelViewModel vehicleModelViewModel)
+        [HttpPut]
+        [Route("UpdateVehicleModelId")]
+        public async Task<IActionResult> PutVehicleModel(VehicleModelViewModel vehicleModelViewModel)
         {
             var vehicleModel = _mapper.Map<VehicleModel>(vehicleModelViewModel);
 
+            /*
             if (id != vehicleModel.Id)
             {
                 return BadRequest();
             }
+            */
 
             if (ModelState.IsValid)
             {
@@ -94,6 +99,7 @@ namespace Mono_Project_API.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPost]
+        [Route("CreateVehicleModel")]
         public async Task<ActionResult> Create(VehicleModelViewModel vehicleModelViewModel)
         {
             if (!ModelState.IsValid)
@@ -109,7 +115,8 @@ namespace Mono_Project_API.Controllers
         }
 
         // DELETE: api/VehicleModels/5
-        [HttpDelete("{id}")]
+        [HttpDelete]
+        [Route("DeleteVehicleMakeId/{id}")]
         public async Task<ActionResult> DeleteVehicleModel(int? id)
         {
             
