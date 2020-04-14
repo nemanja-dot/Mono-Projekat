@@ -9,6 +9,7 @@ class vehicleMakeCreate extends React.Component {
       name: this.refs.name.value,
       abrv: this.refs.abrv.value,
     });
+
     this.refs.id.value = null;
     this.refs.name.value = null;
     this.refs.abrv.value = null;

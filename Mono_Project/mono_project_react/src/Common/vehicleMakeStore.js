@@ -46,9 +46,6 @@ class vehicleMakeStore {
       const dataId = await this.vehicleMakeService.get(id);
       runInAction(() => {
         console.log(dataId);
-        // this.vehicleMakeId = dataId.id;
-        // this.vehicleMakeName = dataId.name;
-        // this.vehicleMakeAbrv = dataId.abrv;
         this.editData = dataId;
       });
     } catch (error) {
@@ -107,9 +104,6 @@ class vehicleMakeStore {
 decorate(vehicleMakeStore, {
   countryData: observable,
   vehicleMakes: observable,
-  //   vehicleMakeId: observable,
-  //   vehicleMakeName: observable,
-  //   vehicleMakeAbrv: observable,
   Pages: observable,
   pagesIndex: observable,
   hasNextPage: observable,

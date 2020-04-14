@@ -68,7 +68,7 @@ class vehicleMakeList extends React.Component {
     deleteVehicleMakeAsync(Id);
   };
   editUser = (model) => {
-    this.props.vehicleMakeStore.make = model;
+    this.props.vehicleMakeStore.editData = model;
   };
 
   render() {
@@ -111,7 +111,7 @@ class vehicleMakeList extends React.Component {
                   activeClassName="active"
                   exact
                   onClick={(event) => this.editUser(vehicleMake)}
-                  to="./Components/vehicleMakeEdit"
+                  to="./vehicleMakeEdit"
                 >
                   Edit
                 </NavLink>
@@ -122,7 +122,7 @@ class vehicleMakeList extends React.Component {
                   className="badge badge-info"
                   activeClassName="active"
                   exact
-                  to="./Components/vehicleMakeCreate"
+                  to="./vehicleMakeCreate"
                 >
                   Add Vehicle Make
                 </NavLink>

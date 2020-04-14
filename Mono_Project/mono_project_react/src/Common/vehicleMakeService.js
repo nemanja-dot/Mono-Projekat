@@ -37,6 +37,7 @@ class vehicleMakeService {
     const response = await fetch(request);
     return response;
   };
+
   put = async (model) => {
     const headers = new Headers();
     headers.append("Content-Type", "application/json");
@@ -49,6 +50,7 @@ class vehicleMakeService {
     const response = await fetch(request);
     return response;
   };
+
   delete = async (id) => {
     const headers = new Headers();
     headers.append("Content-Type", "application/json");
