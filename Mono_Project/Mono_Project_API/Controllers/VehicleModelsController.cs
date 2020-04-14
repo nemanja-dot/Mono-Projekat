@@ -116,7 +116,7 @@ namespace Mono_Project_API.Controllers
 
         // DELETE: api/VehicleModels/5
         [HttpDelete]
-        [Route("DeleteVehicleMakeId/{id}")]
+        [Route("DeleteVehicleModelId/{id}")]
         public async Task<ActionResult> DeleteVehicleModel(int? id)
         {
             
