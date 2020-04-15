@@ -1,17 +1,8 @@
 import * as React from "react";
 
-const VehicleModelEditingTable = (props) => {
+const VehicleMakeEditingTable = (props) => {
   return (
     <form onSubmit={props.editing}>
-      <div className="form-group">
-        <input
-          tpye="text"
-          name="vehicleMakeId"
-          placeholder="Make Id"
-          value={props.state.vehicleMakeId}
-          onChange={props.onChange}
-        />
-      </div>
       <div className="form-group">
         <input
           type="text"
@@ -45,4 +36,4 @@ const VehicleModelEditingTable = (props) => {
     </form>
   );
 };
-export default VehicleModelEditingTable;
+export default VehicleMakeEditingTable;

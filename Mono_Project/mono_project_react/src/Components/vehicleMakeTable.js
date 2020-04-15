@@ -2,30 +2,29 @@ import React from "react";
 import { Table, Button } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 
-const VehicleModelTable = (props) => (
+const VehicleMakeTable = (props) => (
   <Table>
     <thead>
       <tr>
-        <th>Vehicle Make Id</th>
         <th>Id</th>
         <th>Name</th>
         <th>Abrv</th>
       </tr>
     </thead>
+
     <tbody>
-      {props.vehicleModels.map((vehicleModel) => (
-        <tr key={vehicleModel.id}>
-          <td>{vehicleModel.vehicleMakeId}</td>
-          <td>{vehicleModel.id}</td>
-          <td>{vehicleModel.name}</td>
-          <td>{vehicleModel.abrv}</td>
+      {props.vehicleMakes.map((vehicleMake) => (
+        <tr key={vehicleMake.id}>
+          <td>{vehicleMake.id}</td>
+          <td>{vehicleMake.name}</td>
+          <td>{vehicleMake.abrv}</td>
           <td>
             <NavLink
               className="badge badge-warning"
               activeClassName="active"
               exact
-              onClick={(event) => props.editUser(vehicleModel)}
-              to="./vehicleModelEdit"
+              onClick={(event) => props.editUser(vehicleMake)}
+              to="./vehicleMakeEdit"
             >
               Edit
             </NavLink>
@@ -36,9 +35,9 @@ const VehicleModelTable = (props) => (
               className="badge badge-info"
               activeClassName="active"
               exact
-              to="./vehicleModelCreate"
+              to="./vehicleMakeCreate"
             >
-              Add Vehicle Model
+              Add Vehicle Make
             </NavLink>
           </td>
           <td>
@@ -46,7 +45,7 @@ const VehicleModelTable = (props) => (
               size="sm"
               variant="badge badge-danger mr-2"
               onClick={(event) =>
-                props.deleteVehicleModel(event, vehicleModel.id)
+                props.deleteVehicleMake(event, vehicleMake.id)
               }
             >
               Delete
@@ -89,4 +88,4 @@ const VehicleModelTable = (props) => (
   </Table>
 );
 
-export default VehicleModelTable;
+export default VehicleMakeTable;

@@ -1,9 +1,8 @@
 import React from "react";
-import { Table, Button } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 import { observer, inject } from "mobx-react";
-import { NavLink } from "react-router-dom";
-import VehicleModelTable from "../Components/vehicleModelTable";
-import Search from "../Components/search";
+import { VehicleModelTable } from "../Components";
+import { Search } from "../Components";
 
 class vehicleModelList extends React.Component {
   componentDidMount() {

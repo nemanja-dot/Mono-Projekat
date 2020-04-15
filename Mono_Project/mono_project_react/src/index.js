@@ -6,8 +6,8 @@ import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import { Provider } from "mobx-react";
-import vehicleMakeStore from "./Common/vehicleMakeStore";
-import vehicleModelStore from "./Common/vehicleModelStore";
+import { vehicleMakeStore } from "./Common";
+import { vehicleModelStore } from "./Common";
 
 ReactDOM.render(
   <BrowserRouter>

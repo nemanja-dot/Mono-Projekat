@@ -51,7 +51,7 @@ export class NavMenu extends Component {
                   <NavLink
                     tag={Link}
                     className="text-dark"
-                    to="/Components/vehicleMakeList"
+                    to="/vehicleMakeList"
                   >
                     Home
                   </NavLink>
@@ -60,7 +60,7 @@ export class NavMenu extends Component {
                   <NavLink
                     tag={Link}
                     className="text-dark"
-                    to="/Components/vehicleMakeList"
+                    to="/vehicleMakeList"
                   >
                     Make List
                   </NavLink>
@@ -69,7 +69,7 @@ export class NavMenu extends Component {
                   <NavLink
                     tag={Link}
                     className="text-dark"
-                    to="/Components/vehicleModelList"
+                    to="/vehicleModelList"
                   >
                     Model List
                   </NavLink>
