@@ -1,12 +1,18 @@
 import * as React from "react";
 import { observer, inject } from "mobx-react";
+import VehicleModelEditingTable from "./vehicleModelEditingTable";
 
 class vehicleModelEdit extends React.Component {
   constructor(props) {
     super(props);
     this.state = this.props.vehicleModelStore.editData;
     this.onChange = this.onChange.bind(this);
+    // const vehicleMakeId = React.useRef(this.state.vehicleMakeId);
+    // const id = React.useRef(this.state.id);
+    // const name = React.useRef(this.state.name);
+    // const abrv = React.useRef(this.state.abrv);
   }
+  model = { vehicleMakeId: "", id: "", name: "", abrv: "" };
 
   componentDidMount() {
     if (this.props.vehicleModelStore.editData) {
@@ -20,16 +26,16 @@ class vehicleModelEdit extends React.Component {
   vehicleModelEdit = (e) => {
     e.preventDefault();
     this.props.vehicleModelStore.updateVehicleModelAsync({
-      vehicleMakeId: this.refs.vehicleMakeId.value,
-      id: this.refs.id.value,
-      name: this.refs.name.value,
-      abrv: this.refs.abrv.value,
+      vehicleMakeId: this.state.vehicleMakeId, // this.model.vehicleMakeId,
+      id: this.state.id, // this.model.id,
+      name: this.state.name, // this.model.name,
+      abrv: this.state.abrv, // this.model.abrv,
     });
 
-    this.refs.vehicleMakeId.value = null;
-    this.refs.id.value = null;
-    this.refs.name.value = null;
-    this.refs.abrv.value = null;
+    // this.refs.vehicleMakeId.value = null;
+    // this.refs.id.value = null;
+    // this.refs.name.value = null;
+    // this.refs.abrv.value = null;
   };
 
   onChange(event) {
@@ -46,44 +52,26 @@ class vehicleModelEdit extends React.Component {
       <div>
         <div>
           <form onSubmit={this.vehicleModelEdit}>
-            <div className="form-group">
-              <input
-                ref="vehicleMakeId"
-                value={this.state.vehicleMakeId}
-                id="vehicleMakeId"
-                type="text"
-                placeholder="Make Id"
-              />
-            </div>
-            <div className="form-group">
-              <input
-                ref="id"
-                value={this.state.id}
-                id="id"
-                type="text"
-                placeholder="id"
-              />
-            </div>
-            <div className="form-group">
-              <input
-                ref="name"
-                type="text"
-                name="name"
-                placeholder="Name"
-                value={this.state.name}
-                onChange={this.onChange}
-              />
-            </div>
-            <div className="form-group">
-              <input
-                ref="abrv"
-                type="text"
-                name="abrv"
-                value={this.state.abrv}
-                placeholder="Abrv"
-                onChange={this.onChange}
-              />
-            </div>
+            <VehicleModelEditingTable
+              state={this.state}
+              onChange={this.onChange}
+              // vehicleMakeId={this.state.vehicleMakeId}
+              // id={this.state.id}
+              // name={this.state.id}
+              // abrv={this.state.id}
+              // vehicleMakeId={this.refs.vehicleMakeId.value}
+              // id={this.refs.id.value}
+              // name={this.refs.name.value}
+              // abrv={this.refs.abrv.value}
+              // vehicleMakeId={this.model.vehicleMakeId}
+              // id={this.model.id}
+              // name={this.model.name}
+              // abrv={this.model.abrv}
+              // vehicleMakeId={this.ref}
+              // id={this.ref}
+              // name={this.ref}
+              // abrv={this.ref}
+            />
             <button variant="success" type="submit">
               Save
             </button>

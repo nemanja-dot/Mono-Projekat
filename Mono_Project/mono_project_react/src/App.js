@@ -8,11 +8,13 @@ import {
 import "./App.css";
 import { Layout } from "./Layouts/Layout";
 import vehicleMakeList from "./Components/vehicleMakeList";
-import vehicleModelList from "./Components/vehicleModelList";
-import vehicleMakeCreate from "./Components/vehicleMakeCreate";
-import vehicleModelCreate from "./Components/vehicleModelCreate";
-import vehicleMakeEdit from "./Components/vehicleMakeEdit";
-import vehicleModelEdit from "./Components/vehicleModelEdit";
+import vehicleModelList from "./Pages/vehicleModelList";
+import {
+  vehicleMakeCreate,
+  vehicleMakeEdit,
+  vehicleModelCreate,
+  vehicleModelEdit,
+} from "./Components";
 
 // class App extends Component {
 //   render() {
