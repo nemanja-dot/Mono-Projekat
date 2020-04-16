@@ -74,7 +74,7 @@ class vehicleModelStore {
   updateVehicleModelAsync = async (vehicle) => {
     try {
       const response = await this.vehicleModelService.put(vehicle);
-      if (response.status === 200) {
+      if (response.status === 204) {
         runInAction(() => {
           this.status = "success";
         });
