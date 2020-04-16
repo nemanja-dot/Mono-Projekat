@@ -32,43 +32,13 @@ namespace Project.Service.Services.API
         }
         public async Task<VehicleModel> FindAsync(int? id)
         {
-            return await _unitOfWork.VehicleModel.FindByCondition(m => m.Id == id).SingleOrDefaultAsync();
+            return await _unitOfWork.VehicleModel.FindByCondition(m => m.Id == id);
         }
         public async Task<PagingDataList<VehicleModel>> GetAllAsync(PagingData pagingData = null)
         {
-            var allVehicleModel = _unitOfWork.VehicleModel.FindAll();
+            var allVehicleModel = _unitOfWork.VehicleModel.GetAllVehicleModel(pagingData);
 
-
-            if (pagingData == null)
-            {
-                var allResults = await allVehicleModel.ToListAsync();
-                return new PagingDataList<VehicleModel>(allResults, allResults.Count, 0, allResults.Count);
-            }
-
-            if (!string.IsNullOrEmpty(pagingData.SearchString))
-            {
-                allVehicleModel = allVehicleModel.Where(s => s.Name.ToLower().Contains(pagingData.SearchString.ToLower())
-                                       || s.Abrv.ToLower().Contains(pagingData.SearchString.ToLower()));
-            }
-
-            switch (pagingData.SortOrder)
-            {
-                case "isAscending":
-                    allVehicleModel = allVehicleModel.OrderBy(s => s.Name);
-                    break;
-                default:
-                    allVehicleModel = allVehicleModel.OrderByDescending(s => s.Name);
-                    break;
-            }
-
-            var count = await allVehicleModel.CountAsync();
-
-            var currentPage = pagingData.Page ?? 0;
-            var take = pagingData.Count ?? 10;
-
-            var results = await allVehicleModel.Skip(currentPage * take).Take(take).ToListAsync();
-
-            return new PagingDataList<VehicleModel>(results, count, currentPage, take);
+            return await allVehicleModel;
         }
 
         public async Task<bool> UpdateAsync(VehicleModel vehicleModel)
@@ -78,7 +48,7 @@ namespace Project.Service.Services.API
 
         public async Task<bool> VehicleModelExists(int id)
         {
-            return (await _unitOfWork.VehicleModel.FindByCondition(m => m.Id == id).SingleOrDefaultAsync()) != null;
+            return (await _unitOfWork.VehicleModel.FindByCondition(m => m.Id == id)) != null;
         }
 
     }

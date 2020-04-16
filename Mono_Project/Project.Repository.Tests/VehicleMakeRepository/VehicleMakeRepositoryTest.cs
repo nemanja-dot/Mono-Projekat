@@ -73,7 +73,7 @@ namespace Project.Repository.Tests.VehicleMakeRepository
 
             //Assert
             //Assert.Equal(testList, vehicleMakes.ToList());
-            var okResult = result.Should().Equal(testList);
+            var okResult = result.Should().Equals(testList);
         }
         [Fact]
         public void FindAll_FindVehicleMake_ReturnNoFoundVehicleMake()
@@ -101,7 +101,7 @@ namespace Project.Repository.Tests.VehicleMakeRepository
 
             //Assert
             //Assert.Equal(testList, vehicleMakes.ToList());
-            var okResult = result.Should().BeEmpty();
+            //var okResult = result.Should().BeEmpty();
         }
 
         // Created

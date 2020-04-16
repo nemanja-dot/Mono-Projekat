@@ -77,7 +77,7 @@ namespace Project.Service.Tests.VehicleMakeService
             UoW.As<IQueryable<VehicleMake>>().Setup(x => x.Expression).Returns(testList.AsQueryable().Expression);
             UoW.As<IQueryable<VehicleMake>>().Setup(x => x.ElementType).Returns(testList.AsQueryable().ElementType);
             UoW.As<IQueryable<VehicleMake>>().Setup(x => x.GetEnumerator()).Returns(testList.AsQueryable().GetEnumerator());
-            UoW.Setup(x => x.VehicleMake.FindByCondition(x => x.Id == 1)).Returns(testList.AsQueryable());
+            //UoW.Setup(x => x.VehicleMake.FindByCondition(x => x.Id == 1)).Returns(testList.AsQueryable());
 
             // Act
             var serviceVehicleMake = new Services.API.VehicleMakeService(UoW.Object);
@@ -241,7 +241,7 @@ namespace Project.Service.Tests.VehicleMakeService
             UoW.As<IQueryable<VehicleMake>>().Setup(x => x.Expression).Returns(testList.AsQueryable().Expression);
             UoW.As<IQueryable<VehicleMake>>().Setup(x => x.ElementType).Returns(testList.AsQueryable().ElementType);
             UoW.As<IQueryable<VehicleMake>>().Setup(x => x.GetEnumerator()).Returns(testList.AsQueryable().GetEnumerator());
-            UoW.Setup(x => x.VehicleMake.FindByCondition(m => m.Id == testObject.Id)).Returns(mockDbSet.Object);
+            //UoW.Setup(x => x.VehicleMake.FindByCondition(m => m.Id == testObject.Id)).Returns(mockDbSet.Object);
 
 
             // Act

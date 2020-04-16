@@ -5,6 +5,7 @@ using Project.DAL.Context;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace Project.Repository.API
 {
@@ -22,9 +23,9 @@ namespace Project.Repository.API
             return this.applicationContext.Set<T>().AsQueryable();
         }
 
-        public IQueryable<T> FindByCondition(Expression<Func<T, bool>> expression)
+        public async Task<T> FindByCondition(Expression<Func<T, bool>> expression)
         {
-            return this.applicationContext.Set<T>().Where(expression).AsQueryable();
+            return await this.applicationContext.Set<T>().Where(expression).SingleOrDefaultAsync();
         }
 
         public async Task<bool> Create(T entity)
